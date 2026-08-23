@@ -1,21 +1,31 @@
-# Oasis — 0G Chain AI Yield Vault
+# Oasis — Verifiable AI Portfolio Management Infrastructure for 0G
 
-A cross-chain-ready yield optimization vault on 0G Chain where rebalancing decisions are made by a verifiable AI model running on 0G Compute — not a static or off-chain mock.
+Oasis is the trust layer for AI-managed capital on 0G Chain: a strategy execution engine where every allocation decision is made by a model running on **0G Compute**, cryptographically attested inside a TEE, permanently logged to **0G Storage**, and executed on-chain — auditable end to end, not asserted.
+
+Most "AI vaults" ask you to trust a black box. Oasis makes the black box unnecessary: the decision, the reasoning, and the proof that the claimed model actually ran are all independently verifiable by anyone, on-chain.
 
 No Polygon, AggLayer, or MATIC references anywhere in this codebase.
 
 ## What It Is
 
-Oasis is a yield optimization system deployed on **0G Chain Aristotle (chainId 16661)**:
-
 - **NativeVault** — accepts native 0G deposits, mints `ov0G` share tokens
-- **RebalanceExecutor** — AI-driven allocation decisions via 0G Compute, logged to 0G Storage
-- **StrategyAgenticID** — ERC-721 that tokenizes the AI strategy with permanent decision history
-- **DemoYieldAdapter** — ⚠️ demo placeholder (no real yield — see Honest Limitations below)
+- **RebalanceExecutor** — AI-driven allocation decisions via 0G Compute, verified with TEE attestation, logged to 0G Storage, executed on-chain
+- **StrategyAgenticID** — ERC-721 (ERC-7857 pattern) that tokenizes the AI strategy itself as a portable, ownable asset — its full decision history and track record travel with it, even across ownership transfer
+- **DemoYieldAdapter** — the current strategy destination (see Strategy Roadmap below)
 
-## Current Scope
+## Why This Matters
 
-At launch, Oasis operates a **single vault, single adapter** flow: `RebalanceExecutor` decides whether to allocate deposited funds into `DemoYieldAdapter`, the only strategy destination currently deployed. This is an allocation decision today, not a multi-strategy rebalance — true rebalancing across multiple adapters is on the roadmap as more strategies come online.
+The hard problem in AI-managed DeFi isn't picking where to allocate — it's proving the AI actually did what it claims, and that its track record is real. That's what Oasis solves:
+
+- **Verifiable execution**: every decision is backed by a TEE attestation from 0G Compute — you're not trusting a screenshot or a claim, you're checking a cryptographic proof.
+- **Permanent, portable reasoning**: every decision and its full reasoning is written to 0G Storage, forming an audit trail no one — including us — can quietly edit.
+- **A strategy with a real identity**: `StrategyAgenticID` means the AI's track record isn't tied to a UI or a company, it's tied to an on-chain token that can be inspected, compared, and transferred.
+
+This is the infrastructure layer other yield products need to build on. As more strategy destinations come online on 0G — including native validator staking, already live on Aristotle mainnet — Oasis plugs into them without changing the trust model.
+
+## Strategy Roadmap
+
+`DemoYieldAdapter` is the current, minimal strategy destination while additional adapters are integrated. It is explicitly labeled in code and UI as a placeholder — see Honest Limitations below. Native 0G validator staking (delegation, rewards, unbonding — live today on Aristotle) is the leading candidate for the first real yield-generating adapter, with lending/DEX integrations to follow as that infrastructure matures on 0G.
 
 ## Stablecoin Vault Roadmap Note
 
@@ -23,11 +33,11 @@ USDC/stablecoin vault support is planned once a real, established stablecoin is 
 
 ## Honest Limitations
 
-Stated plainly here and in code comments / UI labels:
+Stated plainly here and in code comments / UI labels — we'd rather you hear it from us than discover it yourself:
 
-- **DemoYieldAdapter**: No real yield-generating protocol is integrated yet on 0G Aristotle mainnet. The adapter holds tokens and reports a balance. APY figures in the dashboard are illustrative only.
-- **NativeVault Launch**: Current mainnet deployment operates strictly with native 0G tokens via NativeVault.
-- **0G Pay fees**: Withdrawal fees are taken in native 0G. 0G Pay has no smart-contract interface for this use case at this time.
+- **DemoYieldAdapter**: does not yet route to a real yield-generating protocol. It holds tokens and reports a balance. APY figures in the dashboard are illustrative only. This is the one component actively being upgraded — see Strategy Roadmap above.
+- **NativeVault Launch**: current mainnet deployment operates strictly with native 0G tokens via NativeVault.
+- **0G Pay fees**: withdrawal fees are taken in native 0G. 0G Pay has no smart-contract interface for this use case at this time.
 
 ## Quick Start
 
@@ -154,19 +164,3 @@ node scripts/live_storage_test.js   # Confirms real 0G Storage upload/readback w
 ```
 
 See `docs/integration.md` for exact file/line references mapping each 0G primitive (Chain, Compute, Storage, Agentic ID) to its implementation.
----
-
-## Deployed Contracts (0G Aristotle Mainnet)
-
-> Deployed: 2026-08-23T07:43:21.010Z  
-> Network: 0G Chain Aristotle (Chain ID 16661)  
-> Explorer: https://chainscan.0g.ai
-
-| Contract | Address | Explorer |
-|---|---|---|
-| NativeVault | `0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3` | [view](https://chainscan.0g.ai/address/0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3) |
-| RebalanceExecutor | `0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d` | [view](https://chainscan.0g.ai/address/0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d) |
-| DemoYieldAdapter | `0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E` | [view](https://chainscan.0g.ai/address/0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E) |
-| StrategyAgenticID | `0x78A8ba224b0972aa842438B184fc99BB6afd7950` | [view](https://chainscan.0g.ai/address/0x78A8ba224b0972aa842438B184fc99BB6afd7950) |
-
-> **Launch Note**: OASIS is launched on 0G Aristotle mainnet with NativeVault (native 0G token) active. USDC/stablecoin vault support is planned once a real, established stablecoin is available on 0G Aristotle mainnet — not launched at this stage to avoid using a self-minted mock token as if it held real value.
