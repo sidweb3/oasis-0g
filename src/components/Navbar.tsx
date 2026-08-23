@@ -16,8 +16,9 @@ export function Navbar() {
   const navLinks = [
     { to: "/dashboard", label: "Dashboard" },
     { to: "/vaults", label: "Vaults" },
+    { to: "/strategies", label: "Strategies" },
     { to: "/agentic-id", label: "Agentic ID" },
-    { to: "/whitepaper", label: "Docs" },
+    { to: "/whitepaper", label: "Whitepaper" },
   ];
 
   const handleNetworkClick = () => {
@@ -42,23 +43,21 @@ export function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        {isAuthenticated && (
-          <div className="hidden md:flex items-center gap-1 absolute left-1/2 -translate-x-1/2">
-            {navLinks.map((l) => (
-              <Link
-                key={l.to}
-                to={l.to}
-                className={`px-4 py-2 text-sm font-medium transition-colors rounded-sm ${
-                  location.pathname === l.to
-                    ? "text-cyan-400 bg-cyan-500/10"
-                    : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
-                }`}
-              >
-                {l.label}
-              </Link>
-            ))}
-          </div>
-        )}
+        <div className="hidden md:flex items-center gap-1">
+          {navLinks.map((l) => (
+            <Link
+              key={l.to}
+              to={l.to}
+              className={`px-3.5 py-1.5 text-sm font-medium transition-colors rounded-md ${
+                location.pathname === l.to
+                  ? "text-cyan-400 bg-cyan-500/10 font-semibold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
+            >
+              {l.label}
+            </Link>
+          ))}
+        </div>
 
         {/* Right side */}
         <div className="flex items-center gap-2">
@@ -102,19 +101,18 @@ export function Navbar() {
           )}
 
           {/* Mobile menu toggle */}
-          {isAuthenticated && (
-            <button
-              className="md:hidden p-2 text-muted-foreground hover:text-foreground"
-              onClick={() => setMobileOpen(!mobileOpen)}
-            >
-              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </button>
-          )}
+          <button
+            className="md:hidden p-2 text-muted-foreground hover:text-foreground cursor-pointer"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label="Toggle Menu"
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
       </div>
 
       {/* Mobile menu */}
-      {mobileOpen && isAuthenticated && (
+      {mobileOpen && (
         <div className="md:hidden border-t border-border bg-background">
           {navLinks.map((l) => (
             <Link
@@ -122,7 +120,7 @@ export function Navbar() {
               to={l.to}
               onClick={() => setMobileOpen(false)}
               className={`block px-4 py-3 text-sm font-medium border-b border-border/50 transition-colors ${
-                location.pathname === l.to ? "text-cyan-400 bg-cyan-500/5" : "text-muted-foreground hover:text-foreground"
+                location.pathname === l.to ? "text-cyan-400 bg-cyan-500/5 font-semibold" : "text-muted-foreground hover:text-foreground"
               }`}
             >
               {l.label}

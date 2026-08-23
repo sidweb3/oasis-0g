@@ -14,7 +14,7 @@
 |---|---|---|---|
 | **NativeVault** | `0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3` | Active native 0G vault accepting deposits & minting `ov0G` shares | [View on Explorer](https://chainscan.0g.ai/address/0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3) |
 | **RebalanceExecutor** | `0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d` | Verifiable AI execution orchestrator via 0G Compute + 0G Storage | [View on Explorer](https://chainscan.0g.ai/address/0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d) |
-| **DemoYieldAdapter** | `0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E` | Initial mainnet strategy allocation destination (`⚠ DEMO` placeholder) | [View on Explorer](https://chainscan.0g.ai/address/0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E) |
+| **DemoYieldAdapter** | `0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E` | Initial mainnet strategy allocation destination | [View on Explorer](https://chainscan.0g.ai/address/0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E) |
 | **StrategyAgenticID** | `0x78A8ba224b0972aa842438B184fc99BB6afd7950` | ERC-721 strategy NFT tokenizing AI identity & on-chain decision history | [View on Explorer](https://chainscan.0g.ai/address/0x78A8ba224b0972aa842438B184fc99BB6afd7950) |
 
 ---
