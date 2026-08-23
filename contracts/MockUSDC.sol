@@ -5,12 +5,9 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /**
  * @title MockUSDC
- * @notice Test stablecoin for local Hardhat testing only.
- *         NOT deployed to 0G Aristotle mainnet — on mainnet, MasterVault
- *         uses a real USDC-equivalent ERC-20 whose address is set at deploy time.
- *         If no native USDC exists on 0G Chain at deployment time, MasterVault
- *         is launched with this mock address for demo purposes, and the README
- *         states this explicitly.
+ * @notice Reference Implementation — NOT deployed in current 0G Aristotle mainnet launch.
+ *         Reserved for future stablecoin vault deployment once a real, established stablecoin
+ *         infrastructure is deployed on 0G Chain.
  */
 contract MockUSDC is ERC20 {
     constructor() ERC20("Mock USDC", "USDC") {

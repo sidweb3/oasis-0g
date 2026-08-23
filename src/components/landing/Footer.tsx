@@ -53,9 +53,9 @@ export function Footer() {
             </h3>
             <ul className="space-y-2.5 text-xs font-mono">
               {[
-                { name: "MasterVault", link: MAINNET_CONTRACTS.MASTER_VAULT.explorer },
                 { name: "NativeVault", link: MAINNET_CONTRACTS.NATIVE_VAULT.explorer },
                 { name: "RebalanceExecutor", link: MAINNET_CONTRACTS.REBALANCE_EXECUTOR.explorer },
+                { name: "DemoYieldAdapter", link: MAINNET_CONTRACTS.DEMO_YIELD_ADAPTER.explorer },
                 { name: "StrategyAgenticID", link: MAINNET_CONTRACTS.STRATEGY_AGENTIC_ID.explorer },
               ].map((c) => (
                 <li key={c.name}>

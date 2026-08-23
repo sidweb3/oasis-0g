@@ -8,8 +8,7 @@ No Polygon, AggLayer, or MATIC references anywhere in this codebase.
 
 ## What It Is
 
-Oasis is a dual-vault yield system deployed on **0G Chain Aristotle (chainId 16661)**:
-- **MasterVault** — accepts stablecoin (USDC) deposits, mints `ovUSDC` share tokens
+Oasis is a yield optimization system deployed on **0G Chain Aristotle (chainId 16661)**:
 - **NativeVault** — accepts native `0G` deposits, mints `ov0G` share tokens
 - **RebalanceExecutor** — AI-driven rebalancing via 0G Compute, logged to 0G Storage
 - **StrategyAgenticID** — ERC-721 that tokenizes the AI strategy with permanent decision history
@@ -17,15 +16,9 @@ Oasis is a dual-vault yield system deployed on **0G Chain Aristotle (chainId 166
 
 ---
 
-## 0G Primitive Integration
+## Stablecoin Vault Roadmap Note
 
-| Primitive | Usage |
-|---|---|
-| **0G Chain** | All contracts deployed on Aristotle. No other chain. |
-| **0G Compute** | AI rebalancing via `https://router-api.0g.ai/v1` + TEE attestation |
-| **0G Storage** | Decision records uploaded via `@0gfoundation/0g-storage-ts-sdk`, indexer `indexer-storage-turbo.0g.ai` |
-| **0G Agentic ID** | Strategy tokenized as ERC-721 — history survives ownership transfer |
-| **0G Pay** | Fees in native 0G; 0G Pay (pc.0g.ai) is a compute-credit fiat service with no vault contract path |
+> **Roadmap Note**: USDC/stablecoin vault support is planned once a real, established stablecoin is available on 0G Aristotle mainnet — not launched at this stage to avoid using a self-minted mock token as if it held real value. The codebase includes `MasterVault.sol` and `MockUSDC.sol` as tested reference implementations reserved for future deployment.
 
 ---
 
@@ -33,9 +26,9 @@ Oasis is a dual-vault yield system deployed on **0G Chain Aristotle (chainId 166
 
 > These are stated plainly here and in code comments / UI labels:
 
-1. **DemoYieldAdapter**: No real yield-generating protocol is integrated. The adapter holds tokens and reports a balance. APY figures in the dashboard are illustrative only.
-2. **MockUSDC**: No native USDC exists on 0G Chain at launch. MasterVault uses a test stablecoin. Deploy with the real USDC address when available.
-3. **0G Pay fees**: Withdrawal fees are taken in the vault asset (USDC or native 0G). 0G Pay has no smart-contract interface for this use case.
+1. **DemoYieldAdapter**: No real yield-generating protocol is integrated yet on 0G Aristotle mainnet. The adapter holds tokens and reports a balance. APY figures in the dashboard are illustrative only.
+2. **NativeVault Launch**: Current mainnet deployment operates strictly with native 0G tokens via `NativeVault`.
+3. **0G Pay fees**: Withdrawal fees are taken in native 0G. 0G Pay has no smart-contract interface for this use case.
 
 ---
 
@@ -154,22 +147,20 @@ PORT=3001
 | Compute | https://pc.0g.ai |
 
 
+
 ---
 
 ## Deployed Contracts (0G Aristotle Mainnet)
 
-> Deployed: 2026-08-23T06:53:10.929Z  
+> Deployed: 2026-08-23T07:08:33.676Z  
 > Network: 0G Chain Aristotle (Chain ID 16661)  
 > Explorer: https://chainscan.0g.ai
 
 | Contract | Address | Explorer |
 |---|---|---|
-| MockUSDC (demo) | `0x5FbDB2315678afecb367f032d93F642f64180aa3` | [view](https://chainscan.0g.ai/address/0x5FbDB2315678afecb367f032d93F642f64180aa3) |
-| MasterVault | `0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512` | [view](https://chainscan.0g.ai/address/0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512) |
-| NativeVault | `0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0` | [view](https://chainscan.0g.ai/address/0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0) |
-| RebalanceExecutor | `0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9` | [view](https://chainscan.0g.ai/address/0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9) |
-| DemoYieldAdapter | `0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9` | [view](https://chainscan.0g.ai/address/0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9) |
-| StrategyAgenticID | `0x5FC8d32690cc91D4c39d9d3abcBD16989F875707` | [view](https://chainscan.0g.ai/address/0x5FC8d32690cc91D4c39d9d3abcBD16989F875707) |
+| NativeVault | `0x5FbDB2315678afecb367f032d93F642f64180aa3` | [view](https://chainscan.0g.ai/address/0x5FbDB2315678afecb367f032d93F642f64180aa3) |
+| RebalanceExecutor | `0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512` | [view](https://chainscan.0g.ai/address/0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512) |
+| DemoYieldAdapter | `0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0` | [view](https://chainscan.0g.ai/address/0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0) |
+| StrategyAgenticID | `0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9` | [view](https://chainscan.0g.ai/address/0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9) |
 
-> **Note on MockUSDC**: No native USDC exists on 0G Chain at launch. MasterVault uses a test stablecoin for demo purposes. This is stated plainly.  
-> **Note on DemoYieldAdapter**: Not a real yield-generating protocol integration — it is a placeholder. Docs, UI, and contract code all label this explicitly.
+> **Launch Note**: OASIS is launched on 0G Aristotle mainnet with NativeVault (native 0G token) active. USDC/stablecoin vault support is planned once a real, established stablecoin is available on 0G Aristotle mainnet — not launched at this stage to avoid using a self-minted mock token as if it held real value.

@@ -41,7 +41,6 @@ contract DemoYieldAdapter is IStrategyAdapter, Ownable {
     event Withdrawn(address indexed to, uint256 amount);
 
     constructor(address assetToken, address admin) Ownable(admin) {
-        require(assetToken != address(0), "DemoYieldAdapter: zero asset");
         _asset = IERC20(assetToken);
     }
 

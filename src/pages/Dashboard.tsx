@@ -986,21 +986,12 @@ export default function Dashboard() {
             </div>
             <span>•</span>
             <a
-              href={ACTIVE_CONTRACTS.MASTER_VAULT.explorer}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              USDC Vault: {ACTIVE_CONTRACTS.MASTER_VAULT.address.slice(0, 6)}...{ACTIVE_CONTRACTS.MASTER_VAULT.address.slice(-4)}
-            </a>
-            <span>•</span>
-            <a
               href={MAINNET_CONTRACTS.NATIVE_VAULT.explorer}
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:underline"
             >
-              0G Native Vault: {MAINNET_CONTRACTS.NATIVE_VAULT.address ? `${MAINNET_CONTRACTS.NATIVE_VAULT.address.slice(0, 6)}...${MAINNET_CONTRACTS.NATIVE_VAULT.address.slice(-4)}` : "Not deployed"}
+              0G Native Vault: {MAINNET_CONTRACTS.NATIVE_VAULT.address ? `${MAINNET_CONTRACTS.NATIVE_VAULT.address.slice(0, 6)}...${MAINNET_CONTRACTS.NATIVE_VAULT.address.slice(-4)}` : "0G Aristotle"}
             </a>
             <span>•</span>
             <span>Network: {networkLabel}</span>

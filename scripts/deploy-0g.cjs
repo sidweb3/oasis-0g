@@ -1,6 +1,7 @@
 /**
  * Oasis Protocol — 0G Chain Deployment Script
  * Network: Aristotle Mainnet (chainId 16661, https://evmrpc.0g.ai)
+ * Launch Configuration: NativeVault ONLY (native 0G token vault)
  *
  * Pre-requisites:
  *   1. Unit tests must pass: npx hardhat test
@@ -11,8 +12,8 @@
  *   npx hardhat run scripts/deploy-0g.cjs --network aristotle
  *
  * This script:
- *   - Deploys all Oasis contracts in dependency order
- *   - Wires up roles (EXECUTOR_ROLE, RELAYER_ROLE, RECORDER_ROLE)
+ *   - Deploys NativeVault, RebalanceExecutor, DemoYieldAdapter, StrategyAgenticID
+ *   - Wires up roles (RELAYER_ROLE, RECORDER_ROLE)
  *   - Saves all addresses to deployed-contracts.json
  *   - Auto-patches src/lib/contracts.ts with mainnet addresses
  *   - Appends deployed address block to README.md
@@ -25,15 +26,12 @@ const path = require("path");
 const EXPLORER_BASE = "https://chainscan.0g.ai/address/";
 
 async function main() {
-  // ── Pre-deploy: require tests to have been run ────────────────────────────
-  // Tests are run externally before this script. Add --bail to CI pipeline.
-  // To run: npx hardhat test && npx hardhat run scripts/deploy-0g.cjs --network aristotle
-
   const [deployer] = await ethers.getSigners();
   const balance = await ethers.provider.getBalance(deployer.address);
 
   console.log("\n╔═══════════════════════════════════════════════════════╗");
   console.log("║         Oasis Protocol — 0G Chain Deployment          ║");
+  console.log("║               (NativeVault Launch Only)               ║");
   console.log("╚═══════════════════════════════════════════════════════╝\n");
   console.log("Deployer:       ", deployer.address);
   console.log("Balance:        ", ethers.formatEther(balance), "0G");
@@ -45,32 +43,8 @@ async function main() {
   const deployedAt = new Date().toISOString();
   const results = { deployedAt, network: "aristotle (16661)", deployer: deployer.address };
 
-  // ── 1. MockUSDC (used as vault asset; note in README if no real USDC exists) ──
-  console.log("\n[1/6] Deploying MockUSDC (demo stablecoin — no native USDC on 0G yet)…");
-  const MockUSDC = await ethers.getContractFactory("MockUSDC");
-  const mockUsdc = await MockUSDC.deploy();
-  await mockUsdc.waitForDeployment();
-  const mockUsdcAddr = await mockUsdc.getAddress();
-  console.log("      MockUSDC:         ", mockUsdcAddr);
-  results.MOCK_USDC = { address: mockUsdcAddr, explorer: EXPLORER_BASE + mockUsdcAddr };
-
-  // ── 2. MasterVault (USDC vault) ──────────────────────────────────────────
-  console.log("\n[2/6] Deploying MasterVault…");
-  const MasterVault = await ethers.getContractFactory("MasterVault");
-  const masterVault = await MasterVault.deploy(
-    mockUsdcAddr,           // asset (MockUSDC — update to real USDC when available)
-    "Oasis USDC Vault",     // share token name
-    "ovUSDC",               // share token symbol
-    deployer.address,       // feeRecipient (update to multisig in production)
-    deployer.address        // admin
-  );
-  await masterVault.waitForDeployment();
-  const masterVaultAddr = await masterVault.getAddress();
-  console.log("      MasterVault:      ", masterVaultAddr);
-  results.MASTER_VAULT = { address: masterVaultAddr, explorer: EXPLORER_BASE + masterVaultAddr };
-
-  // ── 3. NativeVault (native 0G vault) ─────────────────────────────────────
-  console.log("\n[3/6] Deploying NativeVault…");
+  // ── 1. NativeVault (native 0G vault) ─────────────────────────────────────
+  console.log("\n[1/4] Deploying NativeVault (Native 0G Token Vault)…");
   const NativeVault = await ethers.getContractFactory("NativeVault");
   const nativeVault = await NativeVault.deploy(
     "Oasis 0G Vault",  // share token name
@@ -83,11 +57,11 @@ async function main() {
   console.log("      NativeVault:      ", nativeVaultAddr);
   results.NATIVE_VAULT = { address: nativeVaultAddr, explorer: EXPLORER_BASE + nativeVaultAddr };
 
-  // ── 4. RebalanceExecutor ──────────────────────────────────────────────────
-  console.log("\n[4/6] Deploying RebalanceExecutor…");
+  // ── 2. RebalanceExecutor ──────────────────────────────────────────────────
+  console.log("\n[2/4] Deploying RebalanceExecutor…");
   const RebalanceExecutor = await ethers.getContractFactory("RebalanceExecutor");
   const rebalanceExecutor = await RebalanceExecutor.deploy(
-    masterVaultAddr,
+    ethers.ZeroAddress, // masterVault set to address(0) for NativeVault-only launch
     nativeVaultAddr,
     deployer.address
   );
@@ -96,17 +70,17 @@ async function main() {
   console.log("      RebalanceExecutor:", rebalanceExecutorAddr);
   results.REBALANCE_EXECUTOR = { address: rebalanceExecutorAddr, explorer: EXPLORER_BASE + rebalanceExecutorAddr };
 
-  // ── 5. DemoYieldAdapter ───────────────────────────────────────────────────
-  console.log("\n[5/6] Deploying DemoYieldAdapter (demo placeholder — no real yield)…");
+  // ── 3. DemoYieldAdapter ───────────────────────────────────────────────────
+  console.log("\n[3/4] Deploying DemoYieldAdapter (demo placeholder — no real yield)…");
   const DemoYieldAdapter = await ethers.getContractFactory("DemoYieldAdapter");
-  const demoAdapter = await DemoYieldAdapter.deploy(mockUsdcAddr, deployer.address);
+  const demoAdapter = await DemoYieldAdapter.deploy(ethers.ZeroAddress, deployer.address);
   await demoAdapter.waitForDeployment();
   const demoAdapterAddr = await demoAdapter.getAddress();
   console.log("      DemoYieldAdapter: ", demoAdapterAddr);
   results.DEMO_YIELD_ADAPTER = { address: demoAdapterAddr, explorer: EXPLORER_BASE + demoAdapterAddr };
 
-  // ── 6. StrategyAgenticID ──────────────────────────────────────────────────
-  console.log("\n[6/6] Deploying StrategyAgenticID (0G Agentic ID)…");
+  // ── 4. StrategyAgenticID ──────────────────────────────────────────────────
+  console.log("\n[4/4] Deploying StrategyAgenticID (0G Agentic ID)…");
   const StrategyAgenticID = await ethers.getContractFactory("StrategyAgenticID");
   const agenticId = await StrategyAgenticID.deploy(deployer.address);
   await agenticId.waitForDeployment();
@@ -117,35 +91,24 @@ async function main() {
   // ── Wire up roles ─────────────────────────────────────────────────────────
   console.log("\n── Granting roles…");
 
-  const EXECUTOR_ROLE  = ethers.keccak256(ethers.toUtf8Bytes("EXECUTOR_ROLE"));
   const RELAYER_ROLE   = ethers.keccak256(ethers.toUtf8Bytes("RELAYER_ROLE"));
   const RECORDER_ROLE  = ethers.keccak256(ethers.toUtf8Bytes("RECORDER_ROLE"));
 
-  // MasterVault: grant EXECUTOR_ROLE to RebalanceExecutor
-  let tx = await masterVault.grantRole(EXECUTOR_ROLE, rebalanceExecutorAddr);
+  // RebalanceExecutor: grant RELAYER_ROLE to deployer
+  let tx = await rebalanceExecutor.grantRole(RELAYER_ROLE, deployer.address);
   await tx.wait();
-  console.log("   MasterVault.EXECUTOR_ROLE → RebalanceExecutor ✓");
-
-  // RebalanceExecutor: grant RELAYER_ROLE to deployer (update to relayer wallet in production)
-  tx = await rebalanceExecutor.grantRole(RELAYER_ROLE, deployer.address);
-  await tx.wait();
-  console.log("   RebalanceExecutor.RELAYER_ROLE → deployer (update to relayer wallet) ✓");
+  console.log("   RebalanceExecutor.RELAYER_ROLE → deployer ✓");
 
   // StrategyAgenticID: grant RECORDER_ROLE to RebalanceExecutor
   tx = await agenticId.grantRole(RECORDER_ROLE, rebalanceExecutorAddr);
   await tx.wait();
   console.log("   StrategyAgenticID.RECORDER_ROLE → RebalanceExecutor ✓");
 
-  // MasterVault: authorize DemoYieldAdapter as a strategy
-  tx = await masterVault.setStrategyAdapter(demoAdapterAddr, 10000); // 100% to demo adapter initially
-  await tx.wait();
-  console.log("   MasterVault.setStrategyAdapter → DemoYieldAdapter (10000 bps = 100%) ✓");
-
-  // Mint first strategy Agentic ID token (metadata storageRef to be updated post-deploy)
+  // Mint first strategy Agentic ID token
   tx = await agenticId.mintStrategy(
     deployer.address,
-    "PENDING_UPLOAD",  // Replace with real 0G Storage hash after first upload
-    "Oasis Strategy v1"
+    "PENDING_UPLOAD",
+    "Oasis 0G Strategy v1"
   );
   await tx.wait();
   console.log("   StrategyAgenticID token #0 minted to deployer ✓");
@@ -168,8 +131,6 @@ async function main() {
   console.log("║               DEPLOYMENT COMPLETE ✓                   ║");
   console.log("╚═══════════════════════════════════════════════════════╝");
   console.log("");
-  console.log("MockUSDC:           ", mockUsdcAddr);
-  console.log("MasterVault:        ", masterVaultAddr);
   console.log("NativeVault:        ", nativeVaultAddr);
   console.log("RebalanceExecutor:  ", rebalanceExecutorAddr);
   console.log("DemoYieldAdapter:   ", demoAdapterAddr);
@@ -192,21 +153,10 @@ function patchContractsTs(results) {
 
   const newMainnet = `// 0G Aristotle Mainnet — auto-generated by deploy-0g.cjs on ${results.deployedAt}
 export const MAINNET_CONTRACTS = {
-  MASTER_VAULT: {
-    address: "${results.MASTER_VAULT.address}",
-    chainId: 16661,
-    explorer: "${results.MASTER_VAULT.explorer}",
-  },
   NATIVE_VAULT: {
     address: "${results.NATIVE_VAULT.address}",
     chainId: 16661,
     explorer: "${results.NATIVE_VAULT.explorer}",
-  },
-  MOCK_USDC: {
-    address: "${results.MOCK_USDC.address}",
-    chainId: 16661,
-    explorer: "${results.MOCK_USDC.explorer}",
-    note: "Demo stablecoin — no native USDC on 0G at launch. Replace when available.",
   },
   REBALANCE_EXECUTOR: {
     address: "${results.REBALANCE_EXECUTOR.address}",
@@ -225,7 +175,6 @@ export const MAINNET_CONTRACTS = {
   },
 } as const;`;
 
-  // Replace the MAINNET_CONTRACTS block if it exists, otherwise append
   if (content.includes("export const MAINNET_CONTRACTS")) {
     content = content.replace(/\/\/ [^\n]*Mainnet[^\n]*\nexport const MAINNET_CONTRACTS[\s\S]*?\} as const;/, newMainnet);
   } else {
@@ -253,18 +202,14 @@ function appendToReadme(results) {
 
 | Contract | Address | Explorer |
 |---|---|---|
-| MockUSDC (demo) | \`${results.MOCK_USDC.address}\` | [view](${results.MOCK_USDC.explorer}) |
-| MasterVault | \`${results.MASTER_VAULT.address}\` | [view](${results.MASTER_VAULT.explorer}) |
 | NativeVault | \`${results.NATIVE_VAULT.address}\` | [view](${results.NATIVE_VAULT.explorer}) |
 | RebalanceExecutor | \`${results.REBALANCE_EXECUTOR.address}\` | [view](${results.REBALANCE_EXECUTOR.explorer}) |
 | DemoYieldAdapter | \`${results.DEMO_YIELD_ADAPTER.address}\` | [view](${results.DEMO_YIELD_ADAPTER.explorer}) |
 | StrategyAgenticID | \`${results.STRATEGY_AGENTIC_ID.address}\` | [view](${results.STRATEGY_AGENTIC_ID.explorer}) |
 
-> **Note on MockUSDC**: No native USDC exists on 0G Chain at launch. MasterVault uses a test stablecoin for demo purposes. This is stated plainly.  
-> **Note on DemoYieldAdapter**: Not a real yield-generating protocol integration — it is a placeholder. Docs, UI, and contract code all label this explicitly.
+> **Launch Note**: OASIS is launched on 0G Aristotle mainnet with NativeVault (native 0G token) active. USDC/stablecoin vault support is planned once a real, established stablecoin is available on 0G Aristotle mainnet — not launched at this stage to avoid using a self-minted mock token as if it held real value.
 `;
 
-  // Remove old deployed block if present, then append fresh
   const marker = "---\n\n## Deployed Contracts (0G Aristotle Mainnet)";
   if (readme.includes(marker)) {
     readme = readme.substring(0, readme.indexOf(marker));

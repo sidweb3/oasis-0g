@@ -86,7 +86,7 @@ contract RebalanceExecutor is AccessControl, ReentrancyGuard, Pausable {
      * @param _admin       Address granted DEFAULT_ADMIN_ROLE and PAUSER_ROLE.
      */
     constructor(address _masterVault, address _nativeVault, address _admin) {
-        require(_masterVault != address(0), "RebalanceExecutor: zero masterVault");
+        require(_nativeVault != address(0) || _masterVault != address(0), "RebalanceExecutor: zero vaults");
         require(_admin != address(0), "RebalanceExecutor: zero admin");
 
         masterVault = _masterVault;
@@ -112,7 +112,7 @@ contract RebalanceExecutor is AccessControl, ReentrancyGuard, Pausable {
         whenNotPaused
         returns (uint256 requestId)
     {
-        require(vault == masterVault || vault == nativeVault, "RebalanceExecutor: unknown vault");
+        require(vault != address(0) && (vault == masterVault || vault == nativeVault), "RebalanceExecutor: unknown vault");
         require(amount > 0, "RebalanceExecutor: zero amount");
 
         requestId = _nextRequestId++;
@@ -149,7 +149,7 @@ contract RebalanceExecutor is AccessControl, ReentrancyGuard, Pausable {
         string calldata storageRef
     ) external onlyRole(RELAYER_ROLE) nonReentrant whenNotPaused {
         require(rebalances[requestId].timestamp == 0, "RebalanceExecutor: already executed");
-        require(vault == masterVault || vault == nativeVault, "RebalanceExecutor: unknown vault");
+        require(vault != address(0) && (vault == masterVault || vault == nativeVault), "RebalanceExecutor: unknown vault");
         require(targetAdapter != address(0), "RebalanceExecutor: zero adapter");
         require(amount > 0, "RebalanceExecutor: zero amount");
         require(computeAttestation.length > 0, "RebalanceExecutor: missing attestation");

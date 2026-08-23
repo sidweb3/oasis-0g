@@ -31,7 +31,7 @@ export function DepositDialog({ vaultId, vaultName }: DepositDialogProps) {
   const [amount, setAmount] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [isDepositing, setIsDepositing] = useState(false);
-  const [depositToken, setDepositToken] = useState<"USDC" | "0G">("USDC");
+  const [depositToken] = useState<"0G">("0G");
 
   const { address, chainId } = useAccount();
   const { writeContractAsync } = useWriteContract();
@@ -150,18 +150,15 @@ export function DepositDialog({ vaultId, vaultName }: DepositDialogProps) {
           </Alert>
         ) : (
           <form onSubmit={handleDeposit} className="space-y-4 pt-2">
-            <Tabs value={depositToken} onValueChange={(v) => setDepositToken(v as "USDC" | "0G")}>
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="USDC">USDC (MasterVault)</TabsTrigger>
-                <TabsTrigger value="0G">Native 0G (NativeVault)</TabsTrigger>
-              </TabsList>
-            </Tabs>
+            <div className="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/20 text-xs text-cyan-300">
+              <span className="font-bold">Active Vault:</span> Oasis 0G Native Vault (NativeVault)
+            </div>
 
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs">
-                <Label htmlFor="amount">Amount</Label>
+                <Label htmlFor="amount">Amount (0G)</Label>
                 <span className="text-muted-foreground">
-                  Balance: {depositToken === "USDC" ? `${formattedUsdc} USDC` : `${balance ? formatEther(balance.value).slice(0, 8) : "0"} 0G`}
+                  Balance: {balance ? formatEther(balance.value).slice(0, 8) : "0"} 0G
                 </span>
               </div>
               <Input
@@ -175,24 +172,12 @@ export function DepositDialog({ vaultId, vaultName }: DepositDialogProps) {
               />
             </div>
 
-            {depositToken === "USDC" && (
-              <Button
-                type="button"
-                variant="outline"
-                size="sm"
-                className="w-full text-xs text-cyan-400 border-cyan-500/30 hover:bg-cyan-500/10"
-                onClick={handleFaucetUSDC}
-              >
-                Claim Faucet (10,000 Mock USDC)
-              </Button>
-            )}
-
             <Button
               type="submit"
               disabled={isDepositing || !amount || Number(amount) <= 0}
               className="w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs uppercase tracking-wider h-11"
             >
-              {isDepositing ? <Loader2 className="h-4 w-4 animate-spin" /> : `Deposit ${depositToken}`}
+              {isDepositing ? <Loader2 className="h-4 w-4 animate-spin" /> : "Deposit 0G"}
             </Button>
           </form>
         )}

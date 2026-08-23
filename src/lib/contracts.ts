@@ -55,7 +55,7 @@ export function getContracts(_mode?: NetworkMode) {
 }
 
 export function isDeployed(): boolean {
-  return MAINNET_CONTRACTS.MASTER_VAULT.address.length > 0;
+  return MAINNET_CONTRACTS.NATIVE_VAULT.address.length > 0;
 }
 
 // ─── ABIs ────────────────────────────────────────────────────────────────────

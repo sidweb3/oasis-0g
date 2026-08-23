@@ -11,15 +11,12 @@ import "@openzeppelin/contracts/utils/Pausable.sol";
 /**
  * @title MasterVault
  * @author Oasis Protocol
- * @notice ERC-4626-style vault for stablecoin (USDC) deposits on 0G Chain (Aristotle, chainId 16661).
- *
- *         Architecture:
- *           User deposits USDC → MasterVault mints share tokens (ovUSDC)
- *           RebalanceExecutor (authorized via EXECUTOR_ROLE) moves funds between strategy adapters
- *           based on decisions made by AI running on 0G Compute, logged to 0G Storage.
+ * @notice Reference Implementation — NOT deployed in current 0G Aristotle mainnet launch.
+ *         The current mainnet launch uses NativeVault (native 0G token). MasterVault is preserved
+ *         as a reference implementation for future deployment once a real, established stablecoin
+ *         infrastructure exists on 0G Chain.
  *
  * @dev Security: AccessControl, ReentrancyGuard, Pausable, SafeERC20.
- *      No Polygon, AggLayer, or MATIC references anywhere in this contract.
  */
 contract MasterVault is ERC20, AccessControl, ReentrancyGuard, Pausable {
     using SafeERC20 for IERC20;
