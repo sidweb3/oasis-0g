@@ -1,0 +1,16 @@
+{
+  "network": "polygonAmoy",
+  "timestamp": "2026-01-14T13:26:38.136Z",
+  "tester": "0xA41Dbf17f2610086e7679348b268B67EF06B7b89",
+  "transactions": {
+    "deposit": "0x512d4b435e890d4489b44d23037b996ba03d04f0ab9fe9dbb0647a3077cd8051",
+    "rebalance": "0xbe7c74af7c5e8841f8934287953866d2d4e2d8e2a16aec73a2fd05d2f0e28f0a",
+    "withdraw": "0x0da682f8e4373a49582e67897cf2c20068c8d7812b6640ab8fb7ca960dad6209"
+  },
+  "metrics": {
+    "depositAmount": "1000.0",
+    "rebalanceAmount": "500.0",
+    "finalTVL": "2042.0",
+    "vaultShares": "0.000000002042"
+  }
+}

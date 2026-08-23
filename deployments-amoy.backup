@@ -1,0 +1,13 @@
+{
+  "network": "polygonAmoy",
+  "chainId": 80002,
+  "timestamp": "2026-01-13T20:47:00.604Z",
+  "deployer": "0xA41Dbf17f2610086e7679348b268B67EF06B7b89",
+  "contracts": {
+    "mockUSDC": "0x2E4D2a90965178C0208927510D62F8aC4fC79321",
+    "mockAaveAdapter": "0x320A2dC1b4a56D13438578e3aC386ed90Ca21D27",
+    "masterVault": "0x831F6F30cc0Aa68a9541B79c2289BF748DEC4a2a",
+    "rebalanceExecutor": "0xFBbcC8BC3351Db781A3250De99099A03f73C8563"
+  },
+  "lastUpdated": "2026-01-14T12:57:27.205Z"
+}

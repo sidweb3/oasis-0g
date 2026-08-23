@@ -1,0 +1,55 @@
+          const prediction = JSON.parse(jsonStr);
+          
+          // Store prediction in database
+          await ctx.runMutation(internal.vaults.storePrediction, {
+            predictedApy: prediction.predictedApy,
+            confidence: prediction.confidence,
+            allocation: JSON.stringify(prediction.allocation),
+            reasoning: prediction.reasoning || "AI-generated allocation",
+          });
+          
+          return prediction;
+        }
+      }
+      
+      // Fallback to conservative prediction
+      const fallbackPrediction = {
+        timestamp: Date.now(),
+        predictedApy: 15.8,
+        confidence: 0.85,
+        allocation: {
+          "Aave V3 (Polygon)": 35,
+          "QuickSwap (zkEVM)": 40,
+          "Beefy (CDK)": 25
+        },
+        reasoning: "Conservative balanced allocation (fallback)"
+      };
+      
+      await ctx.runMutation(internal.vaults.storePrediction, {
+        predictedApy: fallbackPrediction.predictedApy,
+        confidence: fallbackPrediction.confidence,
+        allocation: JSON.stringify(fallbackPrediction.allocation),
+        reasoning: fallbackPrediction.reasoning,
+      });
+      
+      return fallbackPrediction;
+    } catch (error) {
+      console.error("AI prediction error:", error);
+      
+      // Emergency fallback
+      const emergencyPrediction = {
+        timestamp: Date.now(),
+        predictedApy: 14.5,
+        confidence: 0.75,
+        allocation: {
+          "Aave V3 (Polygon)": 40,
+          "QuickSwap (zkEVM)": 35,
+          "Beefy (CDK)": 25
+        },
+        reasoning: "Safe allocation due to prediction error"
+      };
+      
+      return emergencyPrediction;
+    }
+  },
+});
