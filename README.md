@@ -14,6 +14,10 @@ Oasis is a yield optimization system deployed on **0G Chain Aristotle (chainId 1
 - **StrategyAgenticID** — ERC-721 that tokenizes the AI strategy with permanent decision history
 - **DemoYieldAdapter** — ⚠️ demo placeholder (no real yield — see Honest Limitations below)
 
+## Allocation Scope & Multi-Adapter Roadmap
+
+> **Allocation Scope**: At launch on 0G Aristotle mainnet, with `NativeVault` active and `DemoYieldAdapter` as the initial deployed strategy pool, `RebalanceExecutor` executes an AI-driven **single-adapter allocation decision** (evaluating market volatility on 0G Compute, verifying TEE attestation, logging decision to 0G Storage, and recording on-chain). Multi-adapter portfolio rebalancing will activate automatically as third-party yield protocols deploy on 0G Chain.
+
 ---
 
 ## Stablecoin Vault Roadmap Note
@@ -148,11 +152,12 @@ PORT=3001
 
 
 
+
 ---
 
 ## Deployed Contracts (0G Aristotle Mainnet)
 
-> Deployed: 2026-08-23T07:08:33.676Z  
+> Deployed: 2026-08-23T07:17:14.043Z  
 > Network: 0G Chain Aristotle (Chain ID 16661)  
 > Explorer: https://chainscan.0g.ai
 

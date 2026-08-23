@@ -9,11 +9,11 @@ Exact file and line pointers for every 0G primitive integration.
 **Config**: [`hardhat.config.cjs`](../hardhat.config.cjs) — `aristotle` network, RPC `https://evmrpc.0g.ai`, chainId 16661, evmVersion `cancun`.
 
 **Contracts** (all `contracts/`):
-- `MasterVault.sol` — ERC-4626-style stablecoin vault + `EXECUTOR_ROLE` + `Pausable` + `ReentrancyGuard`
-- `NativeVault.sol` — Native 0G token vault
+- `NativeVault.sol` — Native 0G token vault (active mainnet vault)
 - `RebalanceExecutor.sol` — `requestRebalance()` → event → `executeRebalance()` callback with on-chain attestation
 - `StrategyAgenticID.sol` — ERC-721, `recordDecision()` keyed by tokenId
-- `DemoYieldAdapter.sol` — placeholder, prominent `⚠ DEMO` warning in contract and UI
+- `DemoYieldAdapter.sol` — initial strategy pool placeholder (`⚠ DEMO` labeled explicitly)
+- `MasterVault.sol` & `MockUSDC.sol` — tested reference implementations reserved for future stablecoin vault launch when established stablecoins deploy on 0G Chain
 
 **Frontend chain config**: [`src/lib/web3-config.ts`](../src/lib/web3-config.ts) — `ogAristotle` chain definition, single-network wagmi config.
 
