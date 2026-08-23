@@ -146,7 +146,7 @@ async function main() {
     "StrategyAgenticID.mintStrategy(#1)"
   );
 
-  const totalTokens = await agenticId.totalSupply();
+  const totalTokens = await agenticId.totalStrategies();
   console.log(`   StrategyAgenticID Total Supply: ${totalTokens} Tokens\n`);
 
   console.log("╔═══════════════════════════════════════════════════════╗");

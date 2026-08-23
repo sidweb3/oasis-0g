@@ -38,7 +38,6 @@ function TerminalBlock() {
   const allLines = [
     "$ oasis-relayer init --network 0g-aristotle",
     "> Connecting to RPC: https://evmrpc.0g.ai",
-    "> Loading MasterVault (USDC)...",
     "> Loading NativeVault (0G)...",
     "> RebalanceExecutor ready",
     "> 0G Compute Router: router-api.0g.ai/v1",
@@ -235,9 +234,10 @@ export function HeroSection() {
                 </div>
                 <div className="space-y-1.5">
                   {[
-                    { name: "MasterVault", addr: MAINNET_CONTRACTS.MASTER_VAULT.address },
                     { name: "NativeVault", addr: MAINNET_CONTRACTS.NATIVE_VAULT.address },
                     { name: "RebalanceExecutor", addr: MAINNET_CONTRACTS.REBALANCE_EXECUTOR.address },
+                    { name: "DemoYieldAdapter", addr: MAINNET_CONTRACTS.DEMO_YIELD_ADAPTER.address },
+                    { name: "StrategyAgenticID", addr: MAINNET_CONTRACTS.STRATEGY_AGENTIC_ID.address },
                   ].map((c, i) => (
                     <div key={i} className="flex justify-between items-center">
                       <span className="text-muted-foreground">{c.name}</span>

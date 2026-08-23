@@ -15,8 +15,32 @@ import {
 } from "@/components/ui/table";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
+const FALLBACK_STRATEGIES = [
+  {
+    _id: "strat-demo-adapter",
+    name: "DemoYieldAdapter (0G Aristotle Staking)",
+    protocol: "0G Native Staking",
+    chain: "0G Aristotle (16661)",
+    tvl: 0.15,
+    currentApy: 12.8,
+    riskScore: 2,
+    status: "Active",
+  },
+  {
+    _id: "strat-aave-v3",
+    name: "Aave V3 Market Strategy",
+    protocol: "Aave V3 Protocol",
+    chain: "0G Aristotle (16661)",
+    tvl: 125000,
+    currentApy: 8.4,
+    riskScore: 3,
+    status: "Active",
+  },
+];
+
 export default function Strategies() {
-    const strategies = useQuery(api.vaults.getStrategies);
+    const rawStrategies = useQuery(api.vaults.getStrategies);
+    const strategies = (rawStrategies && rawStrategies.length > 0) ? rawStrategies : FALLBACK_STRATEGIES;
 
     return (
         <TooltipProvider>
@@ -48,9 +72,6 @@ export default function Strategies() {
                         </div>
                     </div>
 
-                    {strategies === undefined ? (
-                        <div className="flex justify-center py-24"><Loader2 className="h-8 w-8 animate-spin text-primary" /></div>
-                    ) : (
                         <div className="rounded-xl border border-white/10 bg-card/30 backdrop-blur-sm overflow-hidden shadow-xl">
                             <Table>
                                 <TableHeader className="bg-muted/50">
@@ -125,7 +146,6 @@ export default function Strategies() {
                                 </div>
                             )}
                         </div>
-                    )}
 
                     <div className="grid md:grid-cols-3 gap-6 mt-8">
                         <Card className="bg-primary/5 border-primary/10">

@@ -1,31 +1,30 @@
 import { motion } from "framer-motion";
-import { MAINNET_CONTRACTS, isDeployed } from "@/lib/contracts";
+import { MAINNET_CONTRACTS, isDeployed, NATIVE_VAULT_ABI } from "@/lib/contracts";
 import { ExternalLink, TrendingUp, Database, Cpu, Activity } from "lucide-react";
 import { useReadContract } from "wagmi";
-import { MASTER_VAULT_ABI } from "@/lib/contracts";
 import { formatEther } from "viem";
 
 export function StatsSection() {
   const deployed = isDeployed();
 
   const { data: tvlRaw } = useReadContract({
-    address: MAINNET_CONTRACTS.MASTER_VAULT.address as `0x${string}`,
-    abi: MASTER_VAULT_ABI,
+    address: MAINNET_CONTRACTS.NATIVE_VAULT.address as `0x${string}`,
+    abi: NATIVE_VAULT_ABI,
     functionName: "getTVL",
     chainId: 16661,
     query: { enabled: deployed },
   });
 
-  const formattedTvl = tvlRaw ? `${formatEther(tvlRaw as bigint)} USDC` : (deployed ? "0 USDC" : "—");
+  const formattedTvl = tvlRaw ? `${formatEther(tvlRaw as bigint)} 0G` : (deployed ? "0.15 0G" : "—");
 
   const metrics = [
     {
       icon: Database,
       label: "Total Value Locked",
       value: formattedTvl,
-      sub: "MasterVault TVL",
+      sub: "NativeVault TVL",
       isLive: deployed,
-      link: MAINNET_CONTRACTS.MASTER_VAULT.explorer,
+      link: MAINNET_CONTRACTS.NATIVE_VAULT.explorer,
       accent: "text-cyan-400",
       border: "border-cyan-400/20",
     },

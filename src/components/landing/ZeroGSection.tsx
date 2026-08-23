@@ -10,7 +10,7 @@ const primitives = [
     icon: <Link2 className="h-5 w-5" />,
     name: "0G Chain",
     color: "from-cyan-500 to-blue-600",
-    desc: "MasterVault, NativeVault, and RebalanceExecutor deployed on Aristotle (chainId 16661). All vault deposits and rebalance decisions are recorded on-chain.",
+    desc: "NativeVault, RebalanceExecutor, DemoYieldAdapter, and StrategyAgenticID deployed on Aristotle (chainId 16661). All vault deposits and rebalance decisions are recorded on-chain.",
     status: "Active",
   },
   {

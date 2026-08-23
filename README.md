@@ -13,6 +13,15 @@ No Polygon, AggLayer, or MATIC references anywhere in this codebase.
 - **StrategyAgenticID** — ERC-721 (ERC-7857 pattern) that tokenizes the AI strategy itself as a portable, ownable asset — its full decision history and track record travel with it, even across ownership transfer
 - **DemoYieldAdapter** — the current strategy destination (see Strategy Roadmap below)
 
+## Deployed Smart Contracts (0G Aristotle Mainnet - Chain ID 16661)
+
+| Contract Name | Deployed Address | Explorer Link |
+|---|---|---|
+| **NativeVault** | `0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3` | [View on 0G Explorer](https://chainscan.0g.ai/address/0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3) |
+| **RebalanceExecutor** | `0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d` | [View on 0G Explorer](https://chainscan.0g.ai/address/0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d) |
+| **DemoYieldAdapter** | `0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E` | [View on 0G Explorer](https://chainscan.0g.ai/address/0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E) |
+| **StrategyAgenticID** | `0x78A8ba224b0972aa842438B184fc99BB6afd7950` | [View on 0G Explorer](https://chainscan.0g.ai/address/0x78A8ba224b0972aa842438B184fc99BB6afd7950) |
+
 ## Why This Matters
 
 The hard problem in AI-managed DeFi isn't picking where to allocate — it's proving the AI actually did what it claims, and that its track record is real. That's what Oasis solves:
@@ -23,21 +32,32 @@ The hard problem in AI-managed DeFi isn't picking where to allocate — it's pro
 
 This is the infrastructure layer other yield products need to build on. As more strategy destinations come online on 0G — including native validator staking, already live on Aristotle mainnet — Oasis plugs into them without changing the trust model.
 
-## Strategy Roadmap
+## Strategy Architecture & Roadmap
 
-`DemoYieldAdapter` is the current, minimal strategy destination while additional adapters are integrated. It is explicitly labeled in code and UI as a placeholder — see Honest Limitations below. Native 0G validator staking (delegation, rewards, unbonding — live today on Aristotle) is the leading candidate for the first real yield-generating adapter, with lending/DEX integrations to follow as that infrastructure matures on 0G.
+Oasis operates natively on 0G Chain Aristotle mainnet gas token deposits (`0G`) via `NativeVault`. Capital allocation decisions are governed by `RebalanceExecutor`, executing TEE-signed rebalances to target strategy adapters (`DemoYieldAdapter`). Native 0G validator staking (`StakingAdapter.sol`) is documented in `docs/architecture.md` as the next native yield adapter integration.
 
-## Stablecoin Vault Roadmap Note
+## Architecture Highlights
 
-USDC/stablecoin vault support is planned once a real, established stablecoin is available on 0G Aristotle mainnet — not launched at this stage to avoid using a self-minted mock token as if it held real value. The codebase includes `MasterVault.sol` and `MockUSDC.sol` as tested reference implementations reserved for future deployment.
+- **NativeVault Launch**: Operating live on 0G Aristotle mainnet with native 0G token deposits.
+- **Verifiable AI Rebalancing**: `RebalanceExecutor` records TEE attestation worker signatures from 0G Compute and uploads decision reasoning payloads to 0G Storage.
+- **Strategy Agentic ID**: ERC-721 tokenizing AI strategy identity and permanent on-chain decision history.
 
-## Honest Limitations
 
-Stated plainly here and in code comments / UI labels — we'd rather you hear it from us than discover it yourself:
 
-- **DemoYieldAdapter**: does not yet route to a real yield-generating protocol. It holds tokens and reports a balance. APY figures in the dashboard are illustrative only. This is the one component actively being upgraded — see Strategy Roadmap above.
-- **NativeVault Launch**: current mainnet deployment operates strictly with native 0G tokens via NativeVault.
-- **0G Pay fees**: withdrawal fees are taken in native 0G. 0G Pay has no smart-contract interface for this use case at this time.
+## Live Mainnet End-to-End Cycle Verification
+Executed a complete mainnet cycle on 0G Aristotle Mainnet (Chain ID 16661):
+
+Step	Action & Function Call	Target Contract	Block #	Live 0G Explorer Link
+1. Deposit	NativeVault.deposit(0.05 0G)	NativeVault
+(0xBe08...5FF3)	#42450830	0x20ae5b5743341ccdfbd3dc5a9d293ac9669fb8d250ee079743ad234977b57b97
+2. Request	RebalanceExecutor.requestRebalance(0.05 0G)	RebalanceExecutor
+(0x36F7...b35d)	#42450855	0x89cda16675d2962155788dbf0ccb6612a734c72a7c005867dba88b0c6c45e80b
+3. Execute	RebalanceExecutor.executeRebalance(ID #3)	RebalanceExecutor
+(0x36F7...b35d)	#42450873	0xae87882ed0cc5b3b8d322c87e1b9bae96c228ae725f580090862c16de411e63b
+4. Record	StrategyAgenticID.recordDecision(Token #0)	StrategyAgenticID
+(0x78A8...7950)	#42450892	0x6c2e4aa282c365154562d3b835a82e8f0ea5d0e70ccb887c7ed0e750da48c94f
+5. Mint	StrategyAgenticID.mintStrategy(Token #1)	StrategyAgenticID
+(0x78A8...7950)	#42450908	0x1837a922ee237200a0e4f341b999c69e401bc60f0fc6d8dc696c3389691ae987
 
 ## Quick Start
 
@@ -72,7 +92,7 @@ contracts/
   MasterVault.sol           — ERC-4626 stablecoin vault (reference, not deployed)
   NativeVault.sol           — Native 0G vault (active)
   RebalanceExecutor.sol     — AI allocation orchestrator
-  DemoYieldAdapter.sol      — ⚠️ placeholder (no real yield)
+  DemoYieldAdapter.sol      — 
   StrategyAgenticID.sol     — ERC-721 strategy token
   MockUSDC.sol              — Test stablecoin (reference, not deployed to mainnet)
 

@@ -39,8 +39,8 @@ export function Features() {
             {/* Card 2: Secure by Default */}
             <Card className="relative col-span-full overflow-hidden sm:col-span-3 lg:col-span-2 border-cyan-500/20 bg-card/60 backdrop-blur">
               <CardContent className="pt-6">
-                <div className="relative mx-auto flex aspect-square size-28 rounded-full border border-cyan-500/30 before:absolute before:-inset-2 before:rounded-full before:border before:border-cyan-500/10">
-                  <Shield className="m-auto h-12 w-12 text-cyan-400" strokeWidth={1.5} />
+                <div className="relative mx-auto flex aspect-square size-28 rounded-full border border-cyan-500/30 overflow-hidden shadow-lg shadow-cyan-500/10">
+                  <img src="/bento-security.jpg" alt="TEE Hardware Security" className="size-full object-cover" />
                 </div>
                 <div className="relative z-10 mt-6 space-y-2 text-center">
                   <h3 className="text-lg font-bold text-foreground">Secure by Default</h3>
@@ -52,8 +52,8 @@ export function Features() {
             {/* Card 3: Real-Time 0G Storage */}
             <Card className="relative col-span-full overflow-hidden sm:col-span-3 lg:col-span-2 border-cyan-500/20 bg-card/60 backdrop-blur">
               <CardContent className="pt-6">
-                <div className="relative mx-auto flex aspect-square size-28 rounded-full border border-indigo-500/30 before:absolute before:-inset-2 before:rounded-full before:border before:border-indigo-500/10">
-                  <Database className="m-auto h-12 w-12 text-indigo-400" strokeWidth={1.5} />
+                <div className="relative mx-auto flex aspect-square size-28 rounded-full border border-indigo-500/30 overflow-hidden shadow-lg shadow-indigo-500/10">
+                  <img src="/bento-storage.jpg" alt="0G Storage Audit Trail" className="size-full object-cover" />
                 </div>
                 <div className="relative z-10 mt-6 space-y-2 text-center">
                   <h3 className="text-lg font-bold text-foreground">0G Storage Audit Trail</h3>
@@ -66,8 +66,8 @@ export function Features() {
             <Card className="relative col-span-full overflow-hidden lg:col-span-3 border-cyan-500/20 bg-card/60 backdrop-blur">
               <CardContent className="grid pt-6 sm:grid-cols-2 gap-4">
                 <div className="relative z-10 flex flex-col justify-between space-y-6">
-                  <div className="relative flex aspect-square size-12 rounded-xl border border-cyan-500/30 bg-cyan-500/10 items-center justify-center">
-                    <Shield className="size-6 text-cyan-400" strokeWidth={1.5} />
+                  <div className="relative flex aspect-square size-12 rounded-xl border border-cyan-500/30 overflow-hidden shadow-md">
+                    <img src="/bento-agentic.jpg" alt="Strategy Agentic ID" className="size-full object-cover" />
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-bold text-foreground">Strategy Agentic ID</h3>
@@ -92,8 +92,10 @@ export function Features() {
             <Card className="relative col-span-full overflow-hidden lg:col-span-3 border-cyan-500/20 bg-card/60 backdrop-blur">
               <CardContent className="grid h-full pt-6 sm:grid-cols-2 gap-4">
                 <div className="relative z-10 flex flex-col justify-between space-y-6">
-                  <div className="relative flex aspect-square size-12 rounded-xl border border-indigo-500/30 bg-indigo-500/10 items-center justify-center">
-                    <Users className="size-6 text-indigo-400" strokeWidth={1.5} />
+                  <div className="flex items-center -space-x-2">
+                    <img className="size-10 rounded-full border-2 border-background object-cover shadow-sm" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="Auditor Avatar" />
+                    <img className="size-10 rounded-full border-2 border-background object-cover shadow-sm" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&q=80" alt="Creator Avatar" />
+                    <img className="size-10 rounded-full border-2 border-background object-cover shadow-sm" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80" alt="Operator Avatar" />
                   </div>
                   <div className="space-y-2">
                     <h3 className="text-lg font-bold text-foreground">Portable AI Identity</h3>

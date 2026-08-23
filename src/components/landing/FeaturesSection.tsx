@@ -32,8 +32,8 @@ const features = [
   {
     icon: Layers,
     tag: "ARCHITECTURE",
-    title: "Dual Vault System",
-    description: "MasterVault (USDC, ERC-4626 style) + NativeVault (native 0G). Both authorized with RebalanceExecutor for AI-optimized allocation.",
+    title: "Native Vault Architecture",
+    description: "NativeVault (native 0G) connected to DemoYieldAdapter via RebalanceExecutor for verifiable AI-optimized allocation.",
     accent: "text-blue-400",
     border: "border-blue-400/20",
     bg: "bg-blue-400/5",

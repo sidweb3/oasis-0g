@@ -28,6 +28,9 @@
  */
 
 import "dotenv/config";
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
 import { ethers } from "ethers";
 import express from "express";
 import cors from "cors";
@@ -70,13 +73,18 @@ async function main() {
   if (!privateKey) throw new Error("DEPLOYER_PRIVATE_KEY not set");
   if (!process.env.OG_COMPUTE_API_KEY) throw new Error("OG_COMPUTE_API_KEY not set (get from pc.0g.ai)");
 
-  const executorAddr  = process.env.REBALANCE_EXECUTOR_ADDR;
-  const masterVaultAddr = process.env.MASTER_VAULT_ADDR;
-  const agenticIdAddr = process.env.STRATEGY_AGENTIC_ID_ADDR;
-  const demoAdapterAddr = process.env.DEMO_YIELD_ADAPTER_ADDR;
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const deployedPath = path.join(__dirname, "..", "..", "deployed-contracts.json");
+  const deployed = fs.existsSync(deployedPath) ? JSON.parse(fs.readFileSync(deployedPath, "utf8")) : {};
 
-  if (!executorAddr || !masterVaultAddr || !agenticIdAddr || !demoAdapterAddr) {
-    throw new Error("Missing contract addresses in .env — run deploy-0g.cjs first");
+  const executorAddr  = process.env.REBALANCE_EXECUTOR_ADDR || deployed.REBALANCE_EXECUTOR?.address;
+  const nativeVaultAddr = process.env.NATIVE_VAULT_ADDR || deployed.NATIVE_VAULT?.address;
+  const agenticIdAddr = process.env.STRATEGY_AGENTIC_ID_ADDR || deployed.STRATEGY_AGENTIC_ID?.address;
+  const demoAdapterAddr = process.env.DEMO_YIELD_ADAPTER_ADDR || deployed.DEMO_YIELD_ADAPTER?.address;
+
+  if (!executorAddr || !nativeVaultAddr || !agenticIdAddr || !demoAdapterAddr) {
+    throw new Error("Missing contract addresses in deployed-contracts.json or .env — run deploy-0g.cjs first");
   }
 
   const provider = new ethers.JsonRpcProvider(rpcUrl, { chainId: 16661, name: "0g-aristotle" });
@@ -89,7 +97,7 @@ async function main() {
   console.log(`Storage:        ${process.env.OG_STORAGE_INDEXER_URL || "https://indexer-storage-turbo.0g.ai"}\n`);
 
   const executor    = new ethers.Contract(executorAddr,   EXECUTOR_ABI,    wallet);
-  const masterVault = new ethers.Contract(masterVaultAddr, MASTER_VAULT_ABI, provider);
+  const nativeVault = new ethers.Contract(nativeVaultAddr, MASTER_VAULT_ABI, provider);
   const agenticId   = new ethers.Contract(agenticIdAddr,  AGENTIC_ID_ABI,  wallet);
 
   // ─── In-memory decision store (for REST API) ─────────────────────────────

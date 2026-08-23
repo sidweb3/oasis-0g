@@ -15,14 +15,14 @@ export type NetworkMode = "mainnet";
 // Auto-populated by scripts/deploy-0g.cjs after deployment
 export const MAINNET_CONTRACTS = {
   MASTER_VAULT: {
-    address: "" as `0x${string}`,  // Set after deploy
+    address: "" as `0x${string}`,
     chainId: 16661,
     explorer: "https://chainscan.0g.ai",
   },
   NATIVE_VAULT: {
-    address: "" as `0x${string}`,
+    address: "0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3" as `0x${string}`,
     chainId: 16661,
-    explorer: "https://chainscan.0g.ai",
+    explorer: "https://chainscan.0g.ai/address/0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3",
   },
   MOCK_USDC: {
     address: "" as `0x${string}`,
@@ -31,20 +31,20 @@ export const MAINNET_CONTRACTS = {
     note: "Demo stablecoin — no native USDC on 0G at launch. Replace when available.",
   },
   REBALANCE_EXECUTOR: {
-    address: "" as `0x${string}`,
+    address: "0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d" as `0x${string}`,
     chainId: 16661,
-    explorer: "https://chainscan.0g.ai",
+    explorer: "https://chainscan.0g.ai/address/0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d",
   },
   DEMO_YIELD_ADAPTER: {
-    address: "" as `0x${string}`,
+    address: "0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E" as `0x${string}`,
     chainId: 16661,
-    explorer: "https://chainscan.0g.ai",
+    explorer: "https://chainscan.0g.ai/address/0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E",
     note: "Demo placeholder — not a real yield-generating protocol.",
   },
   STRATEGY_AGENTIC_ID: {
-    address: "" as `0x${string}`,
+    address: "0x78A8ba224b0972aa842438B184fc99BB6afd7950" as `0x${string}`,
     chainId: 16661,
-    explorer: "https://chainscan.0g.ai",
+    explorer: "https://chainscan.0g.ai/address/0x78A8ba224b0972aa842438B184fc99BB6afd7950",
   },
 } as const;
 

@@ -116,11 +116,10 @@ export default function Whitepaper() {
                         Smart Contracts
                       </h3>
                       <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                        <li><strong>MasterVault:</strong> USDC deposits, ERC-4626 standard (0x831F...2a2a)</li>
-                        <li><strong>RebalanceExecutor:</strong> Manages yield strategies (0xFBbc...8563)</li>
-                        <li><strong>MockAaveAdapter:</strong> 5% APY yield generation (0x320A...1D27)</li>
-                        <li><strong>MATICVault:</strong> Native MATIC deposits (0xd399...16b5)</li>
-                        <li><strong>MockUSDC:</strong> Test token with faucet (0x2E4D...9321)</li>
+                        <li><strong>NativeVault:</strong> Native 0G token deposits (0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3)</li>
+                        <li><strong>RebalanceExecutor:</strong> AI yield strategy orchestrator (0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d)</li>
+                        <li><strong>DemoYieldAdapter:</strong> Strategy allocation target (0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E)</li>
+                        <li><strong>StrategyAgenticID:</strong> Tokenized AI strategy & audit history (0x78A8ba224b0972aa842438B184fc99BB6afd7950)</li>
                       </ul>
                     </div>
                     <div className="space-y-4">
@@ -129,16 +128,18 @@ export default function Whitepaper() {
                         How Rebalancing Works
                       </h3>
                       <ol className="list-decimal list-inside space-y-2 text-sm text-muted-foreground">
-                        <li>User deposits USDC into MasterVault</li>
-                        <li>MasterVault authorizes RebalanceExecutor</li>
-                        <li>RebalanceExecutor allocates funds to MockAaveAdapter</li>
-                        <li>Interest accrues at 5% APY over time</li>
-                        <li>Funds can be withdrawn back to vault anytime</li>
+                        <li>User deposits 0G into NativeVault</li>
+                        <li>NativeVault authorizes RebalanceExecutor</li>
+                        <li>RebalanceExecutor allocates capital to DemoYieldAdapter</li>
+                        <li>AI inference via 0G Compute produces verifiable TEE signature</li>
+                        <li>Decisions and reasoning uploaded to 0G Storage with root hash recorded on-chain</li>
                       </ol>
-                      <div className="mt-4 p-3 bg-primary/5 border border-primary/20 rounded-lg text-xs">
-                        <strong>Linking TX:</strong>
+                      <div className="mt-4 p-3 bg-primary/5 border border-primary/20 rounded-lg text-xs font-mono">
+                        <strong>Live Mainnet TX:</strong>
                         <br />
-                        <code className="text-primary">0x072c27...766fe51a</code>
+                        <a href="https://chainscan.0g.ai/tx/0x66dbcf103a410bacf0384f05484fb0f1d36164a308e9b071d9b7943696afa61c" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">
+                          0x66dbcf103a410bacf0384f05484fb0f1d36164a308e9b071d9b7943696afa61c
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -153,8 +154,7 @@ export default function Whitepaper() {
                 Real-Time Data Architecture
               </h2>
               <p className="text-muted-foreground">
-                All platform data is pulled directly from smart contracts in real-time using Wagmi's useReadContract hooks. There is zero caching,
-                simulation, or fake data - every metric you see is live from the Polygon blockchain.
+                All platform data is pulled directly from smart contracts in real-time using Wagmi's useReadContract hooks. Every metric you see is live from 0G Chain Aristotle mainnet (Chain ID 16661).
               </p>
               <div className="grid gap-4 md:grid-cols-3">
                 <Card className="bg-muted/20">
@@ -162,7 +162,7 @@ export default function Whitepaper() {
                     <CardTitle className="text-base">Live TVL Tracking</CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground">
-                    useReadContract hooks query totalAssets() and totalValueLocked() functions directly from vaults.
+                    useReadContract hooks query totalValueLocked() and getTVL() directly from NativeVault.
                   </CardContent>
                 </Card>
                 <Card className="bg-muted/20">
@@ -170,7 +170,7 @@ export default function Whitepaper() {
                     <CardTitle className="text-base">Balance Updates</CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground">
-                    User vault shares (agMATIC/agUSDC) updated instantly via balanceOf() queries.
+                    User vault shares (ov0G) updated instantly via balanceOf() queries on NativeVault.
                   </CardContent>
                 </Card>
                 <Card className="bg-muted/20">
@@ -178,7 +178,7 @@ export default function Whitepaper() {
                     <CardTitle className="text-base">Deposit History</CardTitle>
                   </CardHeader>
                   <CardContent className="text-sm text-muted-foreground">
-                    Every deposit recorded in Convex with timestamp, tx hash, and PolygonScan links.
+                    Every deposit recorded in Convex with timestamp, tx hash, and 0G ChainScan links.
                   </CardContent>
                 </Card>
               </div>
@@ -188,40 +188,36 @@ export default function Whitepaper() {
             <section id="ai-model" className="space-y-6">
               <h2 className="text-3xl font-bold flex items-center gap-3">
                 <span className="bg-primary/10 text-primary w-8 h-8 rounded-full flex items-center justify-center text-sm">4</span>
-                Dual Vault System
+                Native 0G Vault System
               </h2>
               <div className="flex flex-col md:flex-row gap-8 items-start">
                 <div className="flex-1 space-y-4 text-muted-foreground">
                   <p>
-                    The platform features two production-ready vaults, both designed for automated yield optimization:
+                    The platform features a production-ready Native 0G Vault, designed for automated, verifiable AI yield optimization:
                   </p>
                   <ul className="list-disc list-inside space-y-1 ml-4">
-                    <li><strong>MasterVault (USDC):</strong> Connected to RebalanceExecutor for automated yield via MockAaveAdapter (5% APY)</li>
-                    <li><strong>MATICVault:</strong> Native deposits with 1-transaction flow, ready for future executor integration</li>
-                    <li>Both vaults mint receipt tokens (agMATIC/agUSDC) representing user shares</li>
-                    <li>MasterVault actively generating yield through automated rebalancing</li>
+                    <li><strong>NativeVault (0G):</strong> Accepts native 0G gas token deposits with 1-transaction flow</li>
+                    <li>Connected to RebalanceExecutor for verifiable AI decision execution</li>
+                    <li>Mints receipt tokens (ov0G) representing user shares 1:1 with TVL</li>
+                    <li>Integrated with 0G Compute for TEE-signed rebalancing & 0G Storage for reasoning audit logs</li>
                   </ul>
-                  <p>
-                    MasterVault is currently connected to RebalanceExecutor, which manages MockAaveAdapter for 5% APY generation.
-                    MATICVault provides simplified native deposits and is designed for future rebalancing integration.
-                  </p>
                 </div>
-                <Card className="w-full md:w-80 shrink-0 border-primary/20 bg-primary/5">
+                <Card className="w-full md:w-80 shrink-0 border-cyan-500/20 bg-cyan-500/5">
                   <CardHeader>
                     <CardTitle className="text-sm font-mono">Vault Stats</CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-2 text-sm font-mono">
                     <div className="flex justify-between">
-                      <span>MasterVault:</span>
-                      <span className="text-primary">0x831F...2a2a</span>
+                      <span>NativeVault:</span>
+                      <a href="https://chainscan.0g.ai/address/0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">0xBe08...5FF3</a>
                     </div>
                     <div className="flex justify-between">
-                      <span>MATIC Vault:</span>
-                      <span className="text-primary">0xd399...16b5</span>
+                      <span>RebalanceExecutor:</span>
+                      <a href="https://chainscan.0g.ai/address/0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">0x36F7...b35d</a>
                     </div>
                     <div className="flex justify-between">
-                      <span>Executor:</span>
-                      <span className="text-primary">0xFBbc...8563</span>
+                      <span>DemoYieldAdapter:</span>
+                      <a href="https://chainscan.0g.ai/address/0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">0xB71a...7F1E</a>
                     </div>
                     <div className="flex justify-between">
                       <span>APY:</span>

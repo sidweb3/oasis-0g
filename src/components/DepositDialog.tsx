@@ -73,37 +73,15 @@ export function DepositDialog({ vaultId, vaultName }: DepositDialogProps) {
     setIsDepositing(true);
 
     try {
-      if (depositToken === "0G") {
-        const val = parseEther(amount);
-        const tx = await writeContractAsync({
-          address: MAINNET_CONTRACTS.NATIVE_VAULT.address as `0x${string}`,
-          abi: NATIVE_VAULT_ABI,
-          functionName: "deposit",
-          value: val,
-          chainId: 16661,
-        });
-        toast.success(`Deposited ${amount} 0G into NativeVault!`);
-      } else {
-        const val = parseUnits(amount, 18);
-        // Approve first
-        const appTx = await writeContractAsync({
-          address: MAINNET_CONTRACTS.MOCK_USDC.address as `0x${string}`,
-          abi: MOCK_USDC_ABI,
-          functionName: "approve",
-          args: [MAINNET_CONTRACTS.MASTER_VAULT.address as `0x${string}`, val],
-          chainId: 16661,
-        });
-        toast.info("USDC approved — submitting deposit...");
-
-        const depTx = await writeContractAsync({
-          address: MAINNET_CONTRACTS.MASTER_VAULT.address as `0x${string}`,
-          abi: MASTER_VAULT_ABI,
-          functionName: "deposit",
-          args: [val, address],
-          chainId: 16661,
-        });
-        toast.success(`Deposited ${amount} USDC into MasterVault!`);
-      }
+      const val = parseEther(amount);
+      const tx = await writeContractAsync({
+        address: MAINNET_CONTRACTS.NATIVE_VAULT.address as `0x${string}`,
+        abi: NATIVE_VAULT_ABI,
+        functionName: "deposit",
+        value: val,
+        chainId: 16661,
+      });
+      toast.success(`Deposited ${amount} 0G into NativeVault!`);
 
       await depositMutation({
         vaultId,

@@ -12,7 +12,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -55,7 +54,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -94,7 +92,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -131,7 +128,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -171,7 +167,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -208,7 +203,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -248,7 +242,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -285,7 +278,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -322,7 +314,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -359,7 +350,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -398,7 +388,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -437,7 +426,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -482,7 +470,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -524,7 +511,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -563,7 +549,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -602,7 +587,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -642,7 +626,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -682,7 +665,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -721,7 +703,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -758,7 +739,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -797,7 +777,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -834,7 +813,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -871,7 +849,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -913,7 +890,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -952,7 +928,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -996,7 +971,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1033,7 +1007,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1072,7 +1045,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1111,7 +1083,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1152,7 +1123,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1189,7 +1159,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1226,7 +1195,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1258,8 +1226,8 @@
       ]
     },
     "C:\\Users\\Siddhu\\Downloads\\agglayer-ai\\contracts\\StrategyAgenticID.sol": {
-      "lastModificationDate": 1787472594239,
-      "contentHash": "aac28e2c620810e7edbb1179b15dd171",
+      "lastModificationDate": 1787472876769,
+      "contentHash": "54ba387d73f90c64d3d87a0080d159db",
       "sourceName": "contracts/StrategyAgenticID.sol",
       "solcConfig": {
         "version": "0.8.24",
@@ -1268,7 +1236,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1289,9 +1256,7 @@
       "imports": [
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
         "@openzeppelin/contracts/access/AccessControl.sol",
-        "@openzeppelin/contracts/utils/Pausable.sol",
-        "@openzeppelin/contracts/utils/Base64.sol",
-        "@openzeppelin/contracts/utils/Strings.sol"
+        "@openzeppelin/contracts/utils/Pausable.sol"
       ],
       "versionPragmas": [
         "^0.8.24"
@@ -1311,7 +1276,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1353,7 +1317,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1397,7 +1360,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1437,7 +1399,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {
@@ -1477,7 +1438,6 @@
             "enabled": true,
             "runs": 200
           },
-          "viaIR": true,
           "evmVersion": "cancun",
           "outputSelection": {
             "*": {

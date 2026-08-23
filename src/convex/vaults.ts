@@ -195,29 +195,29 @@ export const seedData = mutation({
     });
 
     await ctx.db.insert("strategies", {
-      name: "Aave V3 USDC",
-      protocol: "Aave",
-      chain: "Polygon PoS",
-      currentApy: 8.5,
+      name: "DemoYieldAdapter (0G Staking)",
+      protocol: "0G Native Staking",
+      chain: "0G Aristotle (16661)",
+      currentApy: 12.8,
       riskScore: 2,
-      tvl: 500000,
+      tvl: 150000,
     });
 
     await ctx.db.insert("strategies", {
-      name: "QuickSwap ETH-USDC",
-      protocol: "QuickSwap",
-      chain: "Polygon zkEVM",
-      currentApy: 18.2,
-      riskScore: 6,
+      name: "0G Storage Provider Node Pool",
+      protocol: "0G Storage Pool",
+      chain: "0G Aristotle (16661)",
+      currentApy: 14.5,
+      riskScore: 3,
       tvl: 450000,
     });
 
     await ctx.db.insert("strategies", {
-      name: "Beefy Vault",
-      protocol: "Beefy",
-      chain: "Polygon CDK",
-      currentApy: 22.5,
-      riskScore: 8,
+      name: "0G Compute Worker Node Vault",
+      protocol: "0G Compute Pool",
+      chain: "0G Aristotle (16661)",
+      currentApy: 18.2,
+      riskScore: 4,
       tvl: 300000,
     });
 

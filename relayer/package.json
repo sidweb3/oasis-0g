@@ -10,7 +10,6 @@
     "dev": "ts-node --esm src/index.ts"
   },
   "dependencies": {
-    "@0gfoundation/0g-storage-ts-sdk": "^0.1.0",
     "cors": "^2.8.5",
     "dotenv": "^17.0.0",
     "ethers": "^6.16.0",

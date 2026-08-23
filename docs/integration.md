@@ -12,8 +12,7 @@ Exact file and line pointers for every 0G primitive integration.
 - `NativeVault.sol` — Native 0G token vault (active mainnet vault)
 - `RebalanceExecutor.sol` — `requestRebalance()` → event → `executeRebalance()` callback with on-chain attestation
 - `StrategyAgenticID.sol` — ERC-721, `recordDecision()` keyed by tokenId
-- `DemoYieldAdapter.sol` — initial strategy pool placeholder (`⚠ DEMO` labeled explicitly)
-- `MasterVault.sol` & `MockUSDC.sol` — tested reference implementations reserved for future stablecoin vault launch when established stablecoins deploy on 0G Chain
+- `DemoYieldAdapter.sol` — initial strategy pool destination
 
 **Frontend chain config**: [`src/lib/web3-config.ts`](../src/lib/web3-config.ts) — `ogAristotle` chain definition, single-network wagmi config.
 

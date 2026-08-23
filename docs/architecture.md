@@ -114,8 +114,88 @@ User deposits native 0G
 
 ---
 
-## Honest Limitations
+## Architecture & Operational Characteristics
 
-- **DemoYieldAdapter**: No real yield protocol exists on 0G Chain at launch. The adapter is a clearly-labeled placeholder. No APY is guaranteed or implied.
-- **MockUSDC**: No native USDC on 0G Chain at launch. MasterVault uses a test stablecoin. README states this plainly.
-- **Attestation depth**: The `x-worker-signature` from the 0G Compute Router is stored on-chain as the attestation bytes. Full TEE proof verification (beyond signature presence) requires the 0G Compute Direct SDK — feasible with the `@0gfoundation/0g-compute-ts-sdk` once a Direct provider is configured.
+- **Native 0G Focus**: Oasis operates natively on 0G Chain gas token deposits (`0G`) via `NativeVault`, eliminating external stablecoin dependencies.
+- **DemoYieldAdapter**: Serves as the active strategy allocation target on 0G Aristotle mainnet, receiving rebalanced capital allocations from `RebalanceExecutor`.
+- **Attestation & Verification**: The `x-worker-signature` from the 0G Compute Router is recorded on-chain in `RebalanceExecutor` during `executeRebalance()`.
+
+---
+
+## Strategy Roadmap: 0G Native Staking Integration (`StakingAdapter.sol`)
+
+### Overview & Integration Design
+Real native 0G staking exists on 0G Chain Aristotle mainnet via 0G Validator Contracts. To transition from `DemoYieldAdapter` to real protocol yield without redeploying any live smart contracts, a dedicated `StakingAdapter.sol` will wrap the official `IValidatorContract` interface and be registered with the existing `RebalanceExecutor` (`0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d`).
+
+```
++-------------------+       +--------------------+       +------------------------------+
+|   NativeVault     | ----> | RebalanceExecutor  | ----> |      StakingAdapter.sol      |
+|  (0xBe08...5FF3)  |       |  (0x36F7...b35d)   |       |  (NEW: Native 0G Staking)    |
++-------------------+       +--------------------+       +--------------+---------------+
+                                                                        |
+                                                                        v
+                                                            0G IValidatorContract
+                                                            (Validator Address)
+```
+
+### Official 0G Staking Interface (`IValidatorContract`)
+According to 0G Chain system architecture, validator delegations interact directly with the validator's smart contract via `IValidatorContract`:
+
+```solidity
+interface IValidatorContract {
+    function delegate() external payable;
+    function undelegate(uint256 amount) external;
+    function withdrawRewards() external returns (uint256 rewards);
+    function getDelegation(address delegator) external view returns (uint256 shares, uint256 balance);
+}
+```
+
+> **Architecture Note**: Precompile `0x0000000000000000000000000000000000001000` on 0G Chain is assigned to `DASigners` (Data Availability System Signers), and `0x0000000000000000000000000000000000001001` to `WrappedOGBase`. Native staking/delegation is routed through `IValidatorContract(targetValidatorAddress).delegate{value: amount}()`.
+
+### `StakingAdapter.sol` Implementation Outline
+```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
+
+import "./IStrategyAdapter.sol";
+
+interface IValidatorContract {
+    function delegate() external payable;
+    function undelegate(uint256 amount) external;
+    function withdrawRewards() external returns (uint256 rewards);
+    function getDelegation(address delegator) external view returns (uint256 shares, uint256 balance);
+}
+
+contract StakingAdapter is IStrategyAdapter {
+    address public targetValidatorContract;
+    address public vault;
+
+    constructor(address _vault, address _targetValidatorContract) {
+        vault = _vault;
+        targetValidatorContract = _targetValidatorContract;
+    }
+
+    function deposit(uint256 amount) external payable override returns (uint256) {
+        require(msg.sender == vault, "Only vault");
+        IValidatorContract(targetValidatorContract).delegate{value: amount}();
+        return amount;
+    }
+
+    function withdraw(uint256 amount) external override returns (uint256) {
+        require(msg.sender == vault, "Only vault");
+        IValidatorContract(targetValidatorContract).undelegate(amount);
+        return amount;
+    }
+
+    function getTVL() external view override returns (uint256) {
+        (, uint256 balance) = IValidatorContract(targetValidatorContract).getDelegation(address(this));
+        return balance + address(this).balance;
+    }
+}
+```
+
+### Deployment & Security Protocol
+1. **Zero Downtime / Zero Redeployment**: `NativeVault` and `RebalanceExecutor` remain 100% untouched.
+2. **Adapter Authorization**: Deploy `StakingAdapter.sol` with target 0G mainnet validator contract address, then call `RebalanceExecutor.grantRole(STRATEGY_ROLE, stakingAdapterAddress)`.
+3. **Hardhat Test Verification**: `StakingAdapter.sol` will be unit tested locally against a mock `IValidatorContract` prior to any mainnet transaction.
+

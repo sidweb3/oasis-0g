@@ -125,49 +125,5 @@ export function InstrumentationProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [error, setError] = useState<GenericError | null>(null);
-
-  useEffect(() => {
-    const handleError = async (event: ErrorEvent) => {
-      try {
-        console.error("Window error event:", event);
-        setError({
-          error: event.message,
-          stack: event.error?.stack || "",
-          filename: event.filename || "",
-          lineno: event.lineno,
-          colno: event.colno,
-        });
-      } catch (err) {
-        console.error("Error in handleError:", err);
-      }
-    };
-
-    const handleRejection = async (event: PromiseRejectionEvent) => {
-      try {
-        console.error("Unhandled promise rejection:", event);
-        setError({
-          error: event.reason?.message || String(event.reason),
-          stack: event.reason?.stack || "",
-        });
-      } catch (err) {
-        console.error("Error in handleRejection:", err);
-      }
-    };
-
-    window.addEventListener("error", handleError);
-    window.addEventListener("unhandledrejection", handleRejection);
-
-    return () => {
-      window.removeEventListener("error", handleError);
-      window.removeEventListener("unhandledrejection", handleRejection);
-    };
-  }, []);
-
-  return (
-    <>
-      <ErrorBoundary>{children}</ErrorBoundary>
-      {error && <ErrorDialog error={error} setError={setError} />}
-    </>
-  );
+  return <>{children}</>;
 }
