@@ -7,15 +7,14 @@
 
 ## Data Flow Diagram
 
+## System Component Diagram
+
 ```
-User deposits USDC/0G
+User deposits native 0G
          │
          ▼
 ┌─────────────────────┐
-│    MasterVault      │  ERC-4626-style, chainId 16661
-│    (USDC shares)    │  contracts/MasterVault.sol
-│                     │
-│  OR NativeVault     │  native 0G deposits
+│    NativeVault      │  native 0G deposits
 │    (ov0G shares)    │  contracts/NativeVault.sol
 └─────────┬───────────┘
           │ EXECUTOR_ROLE authorized call
@@ -26,6 +25,9 @@ User deposits USDC/0G
 │  requestRebalance() │──► emits RebalanceRequested event
 │                     │
 └─────────┬───────────┘
+```
+
+> **Roadmap Note**: USDC/stablecoin vault support is planned once a real, established stablecoin is available on 0G Aristotle mainnet — not launched at this stage to avoid using a self-minted mock token as if it held real value. `MasterVault.sol` and `MockUSDC.sol` are preserved as tested reference implementations.
           │ Off-chain relayer picks up event
           ▼
 ┌─────────────────────────────────────────────┐

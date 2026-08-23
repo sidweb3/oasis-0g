@@ -290,6 +290,22 @@ describe("Oasis Protocol", function () {
       ).to.be.revertedWithCustomError(rebalanceExecutor, "AccessControlUnauthorizedAccount");
     });
 
+    it("NativeVault-only launch: RebalanceExecutor operates without masterVault (address(0))", async function () {
+      const RebalanceExecutor = await ethers.getContractFactory("RebalanceExecutor");
+      const executorNativeOnly = await RebalanceExecutor.deploy(
+        ethers.ZeroAddress,
+        await nativeVault.getAddress(),
+        deployer.address
+      );
+      await executorNativeOnly.grantRole(RELAYER_ROLE, relayer.address);
+
+      const nativeVaultAddr = await nativeVault.getAddress();
+      const tx = await executorNativeOnly.connect(relayer).requestRebalance(nativeVaultAddr, ethers.parseEther("1"));
+      const r = await tx.wait();
+      const ev = r.logs.find(l => l.fragment?.name === "RebalanceRequested");
+      expect(ev.args[1]).to.equal(nativeVaultAddr);
+    });
+
     it("refundOrHoldOnFailure marks timed-out request as failed", async function () {
       const masterVaultAddr = await masterVault.getAddress();
       const tx = await rebalanceExecutor.connect(relayer).requestRebalance(masterVaultAddr, 100);
