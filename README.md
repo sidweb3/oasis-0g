@@ -154,3 +154,19 @@ node scripts/live_storage_test.js   # Confirms real 0G Storage upload/readback w
 ```
 
 See `docs/integration.md` for exact file/line references mapping each 0G primitive (Chain, Compute, Storage, Agentic ID) to its implementation.
+---
+
+## Deployed Contracts (0G Aristotle Mainnet)
+
+> Deployed: 2026-08-23T07:43:21.010Z  
+> Network: 0G Chain Aristotle (Chain ID 16661)  
+> Explorer: https://chainscan.0g.ai
+
+| Contract | Address | Explorer |
+|---|---|---|
+| NativeVault | `0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3` | [view](https://chainscan.0g.ai/address/0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3) |
+| RebalanceExecutor | `0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d` | [view](https://chainscan.0g.ai/address/0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d) |
+| DemoYieldAdapter | `0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E` | [view](https://chainscan.0g.ai/address/0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E) |
+| StrategyAgenticID | `0x78A8ba224b0972aa842438B184fc99BB6afd7950` | [view](https://chainscan.0g.ai/address/0x78A8ba224b0972aa842438B184fc99BB6afd7950) |
+
+> **Launch Note**: OASIS is launched on 0G Aristotle mainnet with NativeVault (native 0G token) active. USDC/stablecoin vault support is planned once a real, established stablecoin is available on 0G Aristotle mainnet — not launched at this stage to avoid using a self-minted mock token as if it held real value.

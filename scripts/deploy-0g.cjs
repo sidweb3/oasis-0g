@@ -43,6 +43,21 @@ async function main() {
   const deployedAt = new Date().toISOString();
   const results = { deployedAt, network: "aristotle (16661)", deployer: deployer.address };
 
+  async function safeWait(txRes, label) {
+    let retries = 5;
+    while (retries > 0) {
+      try {
+        const receipt = await txRes.wait(1);
+        return receipt;
+      } catch (err) {
+        retries--;
+        if (retries === 0) throw err;
+        console.log(`      ... waiting for 0G RPC receipt confirmation (${label})...`);
+        await new Promise((r) => setTimeout(r, 3000));
+      }
+    }
+  }
+
   // ── 1. NativeVault (native 0G vault) ─────────────────────────────────────
   console.log("\n[1/4] Deploying NativeVault (Native 0G Token Vault)…");
   const NativeVault = await ethers.getContractFactory("NativeVault");
@@ -52,7 +67,7 @@ async function main() {
     deployer.address,  // feeRecipient
     deployer.address   // admin
   );
-  await nativeVault.waitForDeployment();
+  await safeWait(nativeVault.deploymentTransaction(), "NativeVault deploy");
   const nativeVaultAddr = await nativeVault.getAddress();
   console.log("      NativeVault:      ", nativeVaultAddr);
   results.NATIVE_VAULT = { address: nativeVaultAddr, explorer: EXPLORER_BASE + nativeVaultAddr };
@@ -65,7 +80,7 @@ async function main() {
     nativeVaultAddr,
     deployer.address
   );
-  await rebalanceExecutor.waitForDeployment();
+  await safeWait(rebalanceExecutor.deploymentTransaction(), "RebalanceExecutor deploy");
   const rebalanceExecutorAddr = await rebalanceExecutor.getAddress();
   console.log("      RebalanceExecutor:", rebalanceExecutorAddr);
   results.REBALANCE_EXECUTOR = { address: rebalanceExecutorAddr, explorer: EXPLORER_BASE + rebalanceExecutorAddr };
@@ -74,7 +89,7 @@ async function main() {
   console.log("\n[3/4] Deploying DemoYieldAdapter (demo placeholder — no real yield)…");
   const DemoYieldAdapter = await ethers.getContractFactory("DemoYieldAdapter");
   const demoAdapter = await DemoYieldAdapter.deploy(ethers.ZeroAddress, deployer.address);
-  await demoAdapter.waitForDeployment();
+  await safeWait(demoAdapter.deploymentTransaction(), "DemoYieldAdapter deploy");
   const demoAdapterAddr = await demoAdapter.getAddress();
   console.log("      DemoYieldAdapter: ", demoAdapterAddr);
   results.DEMO_YIELD_ADAPTER = { address: demoAdapterAddr, explorer: EXPLORER_BASE + demoAdapterAddr };
@@ -83,7 +98,7 @@ async function main() {
   console.log("\n[4/4] Deploying StrategyAgenticID (0G Agentic ID)…");
   const StrategyAgenticID = await ethers.getContractFactory("StrategyAgenticID");
   const agenticId = await StrategyAgenticID.deploy(deployer.address);
-  await agenticId.waitForDeployment();
+  await safeWait(agenticId.deploymentTransaction(), "StrategyAgenticID deploy");
   const agenticIdAddr = await agenticId.getAddress();
   console.log("      StrategyAgenticID:", agenticIdAddr);
   results.STRATEGY_AGENTIC_ID = { address: agenticIdAddr, explorer: EXPLORER_BASE + agenticIdAddr };
@@ -96,12 +111,12 @@ async function main() {
 
   // RebalanceExecutor: grant RELAYER_ROLE to deployer
   let tx = await rebalanceExecutor.grantRole(RELAYER_ROLE, deployer.address);
-  await tx.wait();
+  await safeWait(tx, "grantRole RELAYER_ROLE");
   console.log("   RebalanceExecutor.RELAYER_ROLE → deployer ✓");
 
   // StrategyAgenticID: grant RECORDER_ROLE to RebalanceExecutor
   tx = await agenticId.grantRole(RECORDER_ROLE, rebalanceExecutorAddr);
-  await tx.wait();
+  await safeWait(tx, "grantRole RECORDER_ROLE");
   console.log("   StrategyAgenticID.RECORDER_ROLE → RebalanceExecutor ✓");
 
   // Mint first strategy Agentic ID token
@@ -110,7 +125,7 @@ async function main() {
     "PENDING_UPLOAD",
     "Oasis 0G Strategy v1"
   );
-  await tx.wait();
+  await safeWait(tx, "mintStrategy #0");
   console.log("   StrategyAgenticID token #0 minted to deployer ✓");
 
   // ── Save results ──────────────────────────────────────────────────────────
