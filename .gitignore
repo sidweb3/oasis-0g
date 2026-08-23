@@ -1,3 +1,15 @@
-
+# Logs & environment variables
+.env
 .env.local
+.env.*.local
+.env.production
+.env.development
+!.env.example
+*.log
+
+# Dependencies & build outputs
 node_modules
+dist
+.convex
+cache
+artifacts

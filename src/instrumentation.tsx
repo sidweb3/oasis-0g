@@ -11,7 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Dialog } from "@radix-ui/react-dialog";
-import { ChevronDown, ExternalLink } from "lucide-react";
+import { ChevronDown, AlertTriangle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 type SyncError = {
@@ -29,31 +29,6 @@ type AsyncError = {
 
 type GenericError = SyncError | AsyncError;
 
-async function reportErrorToVly(errorData: {
-  error: string;
-  stackTrace?: string;
-  filename?: string;
-  lineno?: number;
-  colno?: number;
-}) {
-  if (!import.meta.env.VITE_VLY_APP_ID) {
-    return;
-  }
-
-  try {
-    await fetch(import.meta.env.VITE_VLY_MONITORING_URL, {
-      method: "POST",
-      body: JSON.stringify({
-        ...errorData,
-        url: window.location.href,
-        projectSemanticIdentifier: import.meta.env.VITE_VLY_APP_ID,
-      }),
-    });
-  } catch (error) {
-    console.error("Failed to report error to Vly:", error);
-  }
-}
-
 function ErrorDialog({
   error,
   setError,
@@ -68,35 +43,31 @@ function ErrorDialog({
         setError(null);
       }}
     >
-      <DialogContent className="bg-red-700 text-white max-w-4xl">
+      <DialogContent className="bg-destructive text-destructive-foreground max-w-4xl">
         <DialogHeader>
-          <DialogTitle>Runtime Error</DialogTitle>
+          <DialogTitle className="flex items-center gap-2">
+            <AlertTriangle className="h-5 w-5" /> Application Runtime Error
+          </DialogTitle>
         </DialogHeader>
-        A runtime error occurred. Open the vly editor to automatically debug the
-        error.
+        An unexpected runtime error occurred in the application.
         <div className="mt-4">
           <Collapsible>
             <CollapsibleTrigger>
-              <div className="flex items-center font-bold cursor-pointer">
-                See error details <ChevronDown />
+              <div className="flex items-center font-bold cursor-pointer gap-1">
+                See error details <ChevronDown className="h-4 w-4" />
               </div>
             </CollapsibleTrigger>
             <CollapsibleContent className="max-w-[460px]">
-              <div className="mt-2 p-3 bg-neutral-800 rounded text-white text-sm overflow-x-auto max-h-60 max-w-full [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                <pre className="whitespace-pre">{error.stack}</pre>
+              <div className="mt-2 p-3 bg-neutral-900 rounded text-white text-sm overflow-x-auto max-h-60 max-w-full font-mono">
+                <pre className="whitespace-pre-wrap text-xs">{error.stack || error.error}</pre>
               </div>
             </CollapsibleContent>
           </Collapsible>
         </div>
         <DialogFooter>
-          <a
-            href={`https://vly.ai/project/${import.meta.env.VITE_VLY_APP_ID}`}
-            target="_blank"
-          >
-            <Button>
-              <ExternalLink /> Open editor
-            </Button>
-          </a>
+          <Button variant="secondary" onClick={() => setError(null)}>
+            Dismiss
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -109,9 +80,7 @@ type ErrorBoundaryState = {
 };
 
 class ErrorBoundary extends React.Component<
-  {
-    children: React.ReactNode;
-  },
+  { children: React.ReactNode },
   ErrorBoundaryState
 > {
   constructor(props: { children: React.ReactNode }) {
@@ -120,26 +89,11 @@ class ErrorBoundary extends React.Component<
   }
 
   static getDerivedStateFromError() {
-    // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
-    // logErrorToMyService(
-    //   error,
-    //   // Example "componentStack":
-    //   //   in ComponentThatThrows (created by App)
-    //   //   in ErrorBoundary (created by App)
-    //   //   in div (created by App)
-    //   //   in App
-    //   info.componentStack,
-    //   // Warning: `captureOwnerStack` is not available in production.
-    //   React.captureOwnerStack(),
-    // );
-    reportErrorToVly({
-      error: error.message,
-      stackTrace: error.stack,
-    });
+    console.error("Uncaught application error:", error, info);
     this.setState({
       hasError: true,
       error: {
@@ -151,14 +105,13 @@ class ErrorBoundary extends React.Component<
 
   render() {
     if (this.state.hasError) {
-      // You can render any custom fallback UI
       return (
         <ErrorDialog
           error={{
-            error: "An error occurred",
-            stack: "",
+            error: "An application error occurred",
+            stack: this.state.error?.stack || "",
           }}
-          setError={() => {}}
+          setError={() => this.setState({ hasError: false, error: null })}
         />
       );
     }
@@ -177,8 +130,7 @@ export function InstrumentationProvider({
   useEffect(() => {
     const handleError = async (event: ErrorEvent) => {
       try {
-        console.log(event);
-        event.preventDefault();
+        console.error("Window error event:", event);
         setError({
           error: event.message,
           stack: event.error?.stack || "",
@@ -186,38 +138,20 @@ export function InstrumentationProvider({
           lineno: event.lineno,
           colno: event.colno,
         });
-
-        if (import.meta.env.VITE_VLY_APP_ID) {
-          await reportErrorToVly({
-            error: event.message,
-            stackTrace: event.error?.stack,
-            filename: event.filename,
-            lineno: event.lineno,
-            colno: event.colno,
-          });
-        }
-      } catch (error) {
-        console.error("Error in handleError:", error);
+      } catch (err) {
+        console.error("Error in handleError:", err);
       }
     };
 
     const handleRejection = async (event: PromiseRejectionEvent) => {
       try {
-        console.error(event);
-
-        if (import.meta.env.VITE_VLY_APP_ID) {
-          await reportErrorToVly({
-            error: event.reason.message,
-            stackTrace: event.reason.stack,
-          });
-        }
-
+        console.error("Unhandled promise rejection:", event);
         setError({
-          error: event.reason.message,
-          stack: event.reason.stack,
+          error: event.reason?.message || String(event.reason),
+          stack: event.reason?.stack || "",
         });
-      } catch (error) {
-        console.error("Error in handleRejection:", error);
+      } catch (err) {
+        console.error("Error in handleRejection:", err);
       }
     };
 
@@ -229,6 +163,7 @@ export function InstrumentationProvider({
       window.removeEventListener("unhandledrejection", handleRejection);
     };
   }, []);
+
   return (
     <>
       <ErrorBoundary>{children}</ErrorBoundary>

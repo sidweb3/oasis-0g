@@ -1,11 +1,11 @@
 {
-  "name": "vly.ai application",
-  "short_name": "vly.ai",
-  "description": "vly.ai application",
+  "name": "Oasis Protocol — 0G Chain AI Yield Vault",
+  "short_name": "Oasis",
+  "description": "Verifiable AI yield optimization vault on 0G Chain",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#000000",
+  "theme_color": "#06b6d4",
   "icons": [
     {
       "src": "/logo.png",
