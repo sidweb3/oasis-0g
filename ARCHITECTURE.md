@@ -1,348 +1,122 @@
-# AggLayer Yield AI - Complete Architecture
+# Oasis Protocol — System Architecture & Technical Specification
 
-## 🏗️ System Overview
+> **0G Chain Aristotle Mainnet Deployment** | Chain ID: `16661` | RPC: `https://evmrpc.0g.ai` | Explorer: [chainscan.0g.ai](https://chainscan.0g.ai)
 
-AggLayer Yield AI is a **cross-chain yield optimization platform** with automated rebalancing. The platform uses a RebalanceExecutor contract to manage yield strategies across dual vaults (MATIC + USDC), automatically allocating funds to generate 5% APY through MockAaveAdapter.
+Oasis is the **verifiable AI portfolio management and yield optimization protocol** built natively for 0G Chain. It bridges high-performance off-chain AI reasoning with strict on-chain execution by leveraging:
+- **0G Compute**: TEE-attested AI model inference (`llama-3.3-70b-instruct`).
+- **0G Storage**: Immutable, audit-ready storage of full AI decision rationale and risk matrices.
+- **0G Chain**: Smart contract execution layer enforcing cryptographic attestations before any capital movement.
+- **Strategy Agentic ID (ERC-7857)**: Ownable, tokenized AI strategy identities with permanent on-chain track records.
 
 ---
 
-## 📊 Architecture Diagram
+## 📊 High-Level Architecture Diagram
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                      POLYGON AMOY TESTNET                           │
-├─────────────────────────────────────────────────────────────────────┤
-│                                                                     │
-│  ┌────────────────┐              ┌────────────────┐                 │
-│  │   MATICVault   │              │  MasterVault   │                 │
-│  │    (Native)    │              │    (USDC)      │                 │
-│  │  0xd399...16b5 │              │  0x831F...2a2a │                 │
-│  └────────┬───────┘              └────────┬───────┘                 │
-│           │                               │                         │
-│           │ Users deposit                 │ Users deposit           │
-│           │ MATIC directly                │ USDC (ERC-20)           │
-│           │                               │                         │
-│           │                               │ Controls & Manages      │
-│           │                               ▼                         │
-│           │                      ┌─────────────────┐                │
-│           │                      │ RebalanceExecutor│               │ 
-│           │                      │  0xFBbc...8563   │               │
-│           │                      └────────┬─────────┘               │
-│           │                               │                         │
-│           │                               │ Allocates funds         │
-│           │                               │ for yield               │
-│           │                               ▼                         │
-│           │                      ┌─────────────────┐                │
-│           └─────────────────────►│ MockAaveAdapter │                │
-│                                  │  (5% APY)       │                │
-│                                  │  0x320A...1D27  │                │
-│                                  └─────────────────┘                │
-│                                                                     │
-│  Supporting Contracts:                                              │
-│  • MockUSDC (0x2E4D...79321) - Test token with faucet               │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
-
-                         Frontend (React + Wagmi)
-                                    │
-                    ┌───────────────┼───────────────┐
-                    ▼               ▼               ▼
-              Real-Time TVL    Live Balances   Deposit History
-             (useReadContract)  (Blockchain)    (Convex DB)
++-----------------------------------------------------------------------------------+
+|                              USER INTERFACE (Wagmi / Web3)                         |
++-----------------------------------------+-----------------------------------------+
+                                          | Deposits 0G
+                                          v
++-----------------------------------------------------------------------------------+
+|                                 0G CHAIN MAINNET                                  |
+|                                                                                   |
+|   +-----------------------+                    +------------------------------+   |
+|   |      NativeVault      |                    |    StrategyAgenticID (ERC-721) |   |
+|   | (0xBe08...5FF3)       |                    |    (0x78A8...7950)            |   |
+|   +-----------+-----------+                    +--------------^---------------+   |
+|               | Authorizes                                    | Records           |
+|               v                                               | Decision History  |
+|   +-----------+-----------+                    +--------------+---------------+   |
+|   |   RebalanceExecutor   | -----------------> |       DemoYieldAdapter       |   |
+|   | (0x36F7...b35d)       |  Executes Capital  |       (0xB71a...7F1E)        |   |
+|   +-----------^-----------+  Allocation        +------------------------------+   |
++---------------|-------------------------------------------------------------------+
+                |
+                | 1. RebalanceRequested Event
+                | 4. executeRebalance() with TEE Proof & Storage Hash
+                v
++-----------------------------------------------------------------------------------+
+|                              OASIS RELAYER SERVICE                                |
+|                                                                                   |
+|  +------------------------+  2. AI Inference Request  +-------------------------+  |
+|  |     0G Compute Router  | <-----------------------> |    0G Storage Network   |  |
+|  |   (router-api.0g.ai)   |                           | (indexer-storage-turbo) |  |
+|  |  [TEE Attestation]     | ------------------------> | [Audit Trail Hash]      |  |
+|  +------------------------+  3. Decision Rationale    +-------------------------+  |
++-----------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 🔗 Contract Relationships
+## 🏛️ Smart Contract Infrastructure
 
-### MasterVault (USDC Vault)
-**Address:** `0x831F6F30cc0Aa68a9541B79c2289BF748DEC4a2a`
+### 1. NativeVault (`NativeVault.sol`)
+- **Mainnet Address:** `0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3`
+- **Explorer:** [View on 0G Explorer](https://chainscan.0g.ai/address/0xBe08ACa91A346A4B49C31563Ab897FF42d8B5FF3)
+- **Role:** Primary liquidity vault accepting native 0G gas token deposits.
+- **Key Features:**
+  - Standardized 1-transaction deposit flow (`deposit()`).
+  - Mints `ov0G` receipt tokens representing fractional vault ownership.
+  - Grants capital rebalancing authority to `RebalanceExecutor`.
+  - Exposes `totalValueLocked()` for real-time TVL auditing.
 
-**Purpose:**
-- ERC-4626 compliant vault for USDC deposits
-- Generates yield by delegating funds to RebalanceExecutor
-- Issues agUSDC shares to depositors
+### 2. RebalanceExecutor (`RebalanceExecutor.sol`)
+- **Mainnet Address:** `0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d`
+- **Explorer:** [View on 0G Explorer](https://chainscan.0g.ai/address/0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d)
+- **Role:** Autonomous strategy orchestrator enforcing cryptographic proof verification.
+- **Key Features:**
+  - `requestRebalance(address vault, uint256 amount)`: Emits `RebalanceRequested` event to initiate off-chain AI computation.
+  - `executeRebalance(...)`: Verifies `computeAttestation` bytes (TEE worker signature from 0G Compute) and `storageRef` hash before permitting strategy transfers.
+  - Enforces role-based security (`EXECUTOR_ROLE`, `RELAYER_ROLE`).
 
-**Connected To:**
-- **RebalanceExecutor** → Has authority to move funds for yield optimization
-- **MockUSDC** → Asset being vaulted
-- **MockAaveAdapter** → Indirect connection via RebalanceExecutor
+### 3. StrategyAgenticID (`StrategyAgenticID.sol`)
+- **Mainnet Address:** `0x78A8ba224b0972aa842438B184fc99BB6afd7950`
+- **Explorer:** [View on 0G Explorer](https://chainscan.0g.ai/address/0x78A8ba224b0972aa842438B184fc99BB6afd7950)
+- **Role:** Tokenized AI strategy identity implementing the ERC-7857 agentic pattern.
+- **Key Features:**
+  - Tokenizes AI strategy models as ownable, transferable ERC-721 assets.
+  - On-chain function `recordDecision(uint256 tokenId, string storageRef, bytes32 decisionHash)` binds every execution to the token's permanent track record.
+  - Strategy performance, historical decisions, and 0G Storage hashes stay attached to the token across transfers.
 
-**Key State Variables:**
-```solidity
-address public rebalanceExecutor; // 0xFBbcC8BC3351Db781A3250De99099A03f73C8563
-IERC20 public asset;             // MockUSDC (0x2E4D...79321)
-```
-
----
-
-### RebalanceExecutor
-**Address:** `0xFBbcC8BC3351Db781A3250De99099A03f73C8563`
-
-**Purpose:**
-- Central rebalancing engine for the platform
-- Manages allocation between idle funds and yield strategies
-- Currently manages MockAaveAdapter (5% APY strategy)
-- Designed for cross-chain operation via AggLayer
-
-**Connected To:**
-- **MasterVault** → Source of funds (USDC)
-- **MockAaveAdapter** → Yield strategy
-
-**Key State Variables:**
-```solidity
-address public masterVault;    // 0x831F6F30cc0Aa68a9541B79c2289BF748DEC4a2a
-address public zkevmStrategy;  // 0x320A2dC1b4a56D13438578e3aC386ed90Ca21D27 (MockAaveAdapter)
-```
-
-**Key Functions:**
-- `executeRebalance(uint256 amount)` - Moves funds from MasterVault to MockAaveAdapter
-- `withdrawFromStrategy(uint256 amount)` - Retrieves funds back to MasterVault
-- `getStrategyBalance()` - Returns current balance in MockAaveAdapter
-
-**Linking Transaction:**
-https://amoy.polygonscan.com/tx/0x072c2770d5c62297695a3a36feeafb8c04b16f90f8875efd51c3d7af766fe51a
+### 4. DemoYieldAdapter (`DemoYieldAdapter.sol`)
+- **Mainnet Address:** `0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E`
+- **Explorer:** [View on 0G Explorer](https://chainscan.0g.ai/address/0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E)
+- **Role:** Mainnet strategy destination contract receiving rebalanced 0G capital allocations.
 
 ---
 
-### MockAaveAdapter
-**Address:** `0x320A2dC1b4a56D13438578e3aC386ed90Ca21D27`
+## ⚡ 0G Decentralized Infrastructure Integration
 
-**Purpose:**
-- Simulates Aave V3 lending protocol
-- Provides 5% APY on deposited USDC
-- Managed exclusively by RebalanceExecutor
+### 1. 0G Compute Integration
+- **API Endpoint:** `https://router-api.0g.ai/v1`
+- **Model Executed:** `llama-3.3-70b-instruct` inside TEE enclaves.
+- **Verification Mechanism:** Every AI inference request returns a cryptographic worker signature (`x-worker-signature` HTTP header). This signature is passed into `executeRebalance()` as `computeAttestation` and verified on-chain.
 
-**Yield Generation:**
-```solidity
-// Simplified interest calculation
-uint256 secondsPerYear = 365 * 24 * 60 * 60;
-uint256 interestRate = 5; // 5% APY
-uint256 interestEarned = (balance * interestRate * timeElapsed) / (100 * secondsPerYear);
-```
-
-**Key Functions:**
-- `deposit(uint256 amount)` - Accept USDC from RebalanceExecutor
-- `withdraw(uint256 amount)` - Return USDC to RebalanceExecutor
-- `balanceOf(address user)` - View current balance with accrued interest
+### 2. 0G Storage Integration
+- **Storage Indexer:** `https://indexer-storage-turbo.0g.ai`
+- **Audit Logging:** The complete JSON payload containing market metrics, risk vectors, AI reasoning, and allocation rationale is uploaded directly to 0G Storage.
+- **On-Chain Anchor:** The returned 0G Storage root hash (`storageRef`) is committed on-chain in `RebalanceExecutor` and indexed under the strategy's `StrategyAgenticID`.
 
 ---
 
-### MATICVault
-**Address:** `0xd399F27f84A5928460b8f9f222EBcb4438F716b5`
+## 🔄 End-to-End Rebalancing Lifecycle
 
-**Purpose:**
-- Native MATIC deposits (no ERC-20 approval needed)
-- 1-transaction deposit flow
-- Issues agMATIC shares to depositors
-
-**Note:** Currently operates independently but designed for future RebalanceExecutor integration
-
-**Key Functions:**
-- `deposit() payable` - Accept native MATIC
-- `withdraw(uint256 shares)` - Redeem MATIC
-- `totalValueLocked()` - View TVL
+1. **User Action:** User deposits 0G into `NativeVault` and triggers `requestRebalance()`.
+2. **Event Emission:** `RebalanceExecutor` emits `RebalanceRequested(requestId, vault, amount, timestamp)`.
+3. **AI Inference:** The Oasis Relayer picks up the event, gathers real-time market data, and queries **0G Compute**.
+4. **TEE Attestation & Storage Upload:** 0G Compute executes model inference within a TEE enclave, returning the allocation decision and TEE worker signature. The full reasoning tree is saved to **0G Storage**.
+5. **On-Chain Execution:** The Relayer calls `executeRebalance()` on `RebalanceExecutor`, supplying the decision hash, TEE signature, and 0G Storage reference hash.
+6. **Track Record Logging:** `RebalanceExecutor` executes capital transfer to the strategy adapter and logs the decision permanently to `StrategyAgenticID`.
 
 ---
 
-### MockUSDC
-**Address:** `0x2E4D2a90965178C0208927510D62F8aC4fC79321`
+## 🔒 Security & Access Control Architecture
 
-**Purpose:**
-- Test token for USDC vault
-- Faucet for easy testing
-- Standard ERC-20 implementation
-
-**Key Functions:**
-- `faucet()` - Claim 1000 USDC
-- Standard ERC-20: `approve()`, `transfer()`, `balanceOf()`
-
----
-
-## 🔄 Rebalancing Flow
-
-### User Deposit → Yield Generation
-
-```
-1. User deposits 1000 USDC to MasterVault
-   └─► MasterVault.deposit(1000 USDC, user)
-       └─► Issues agUSDC shares to user
-       └─► USDC sits idle in MasterVault
-
-2. Admin/Automated triggers rebalancing
-   └─► RebalanceExecutor.executeRebalance(500 USDC)
-       └─► Moves 500 USDC from MasterVault to MockAaveAdapter
-       └─► MockAaveAdapter begins generating 5% APY
-
-3. Interest accrues over time
-   └─► MockAaveAdapter.balanceOf(MasterVault) increases
-       └─► TVL in MasterVault reflects accrued interest
-
-4. User can withdraw anytime
-   └─► MasterVault.withdraw(shares, user)
-       └─► RebalanceExecutor.withdrawFromStrategy() if needed
-       └─► User receives USDC + share of yield
-```
-
-### Verification Example
-
-**View Rebalancing Status:**
-```bash
-# Check if RebalanceExecutor is linked
-cast call 0x831F6F30cc0Aa68a9541B79c2289BF748DEC4a2a "rebalanceExecutor()(address)" --rpc-url https://rpc-amoy.polygon.technology
-
-# Output: 0xFBbcC8BC3351Db781A3250De99099A03f73C8563 ✅
-
-# Check yield strategy
-cast call 0xFBbcC8BC3351Db781A3250De99099A03f73C8563 "zkevmStrategy()(address)" --rpc-url https://rpc-amoy.polygon.technology
-
-# Output: 0x320A2dC1b4a56D13438578e3aC386ed90Ca21D27 ✅
-
-# Check balance in MockAaveAdapter
-cast call 0x320A2dC1b4a56D13438578e3aC386ed90Ca21D27 "balanceOf(address)(uint256)" 0x831F6F30cc0Aa68a9541B79c2289BF748DEC4a2a --rpc-url https://rpc-amoy.polygon.technology
-```
-
----
-
-## 💻 Frontend Architecture
-
-### Real-Time Data Layer (Wagmi v3)
-
-All data is queried directly from blockchain with **zero caching**:
-
-```typescript
-// src/pages/Dashboard.tsx
-
-// 1. Read USDC Vault TVL
-const { data: usdcVaultTvl } = useReadContract({
-  address: "0x831F6F30cc0Aa68a9541B79c2289BF748DEC4a2a",
-  abi: MASTER_VAULT_ABI,
-  functionName: 'totalAssets',
-  chainId: 80002,
-});
-
-// 2. Read MATIC Vault TVL
-const { data: maticVaultTvl } = useReadContract({
-  address: "0xd399F27f84A5928460b8f9f222EBcb4438F716b5",
-  abi: MATIC_VAULT_ABI,
-  functionName: 'totalValueLocked',
-  chainId: 80002,
-});
-
-// 3. Calculate combined TVL
-const totalTvl = formatUnits(usdcVaultTvl, 6) + formatEther(maticVaultTvl) * maticPrice;
-```
-
-### Deposit History (Convex Database)
-
-User deposits are tracked in real-time:
-
-```typescript
-// src/convex/deposits.ts
-
-export const recordDeposit = mutation({
-  args: {
-    userAddress: v.string(),
-    amount: v.string(),
-    vaultType: v.string(), // "MATIC" or "USDC"
-    txHash: v.string(),
-  },
-  handler: async (ctx, args) => {
-    await ctx.db.insert("deposits", {
-      userAddress: args.userAddress,
-      amount: args.amount,
-      vaultType: args.vaultType,
-      txHash: args.txHash,
-      timestamp: Date.now(),
-    });
-  },
-});
-```
-
----
-
-## 🎯 Key Metrics (Real-Time)
-
-| Metric | Source | Calculation |
-|--------|--------|-------------|
-| **Total TVL** | Blockchain | `usdcVaultTvl + (maticVaultTvl * maticPrice)` |
-| **Average APY** | Contract | 5.0% (hardcoded in MockAaveAdapter) |
-| **Active Strategies** | Deployment | 1 (MockAaveAdapter) |
-| **Gas Saved** | Estimation | `(totalTvl / 1000) * $2.50` |
-| **User Balance** | Blockchain | `balanceOf(userAddress)` on vaults |
-| **Vault Shares** | Blockchain | agUSDC/agMATIC token balances |
-
----
-
-## 🚀 Cross-Chain Design
-
-### Current: Single-Chain Demonstration
-- All contracts on Polygon Amoy
-- Demonstrates rebalancing architecture
-- RebalanceExecutor manages MockAaveAdapter
-
-### Future: AggLayer Integration
-- MasterVault on Polygon PoS
-- RebalanceExecutor on zkEVM
-- Cross-chain messaging via AggLayer
-- Unified liquidity across chains
-
-**Why Single-Chain for Demo:**
-- zkEVM Cardona faucet unavailable during buildathon
-- Architecture proves rebalancing concept
-- Easy for judges to verify on single explorer
-- Production version will use full AggLayer capabilities
-
----
-
-## 📝 Contract Verification
-
-All contracts deployed and verified on PolygonScan:
-
-1. **MasterVault:** https://amoy.polygonscan.com/address/0x831F6F30cc0Aa68a9541B79c2289BF748DEC4a2a
-2. **RebalanceExecutor:** https://amoy.polygonscan.com/address/0xFBbcC8BC3351Db781A3250De99099A03f73C8563
-3. **MockAaveAdapter:** https://amoy.polygonscan.com/address/0x320A2dC1b4a56D13438578e3aC386ed90Ca21D27
-4. **MATICVault:** https://amoy.polygonscan.com/address/0xd399F27f84A5928460b8f9f222EBcb4438F716b5
-5. **MockUSDC:** https://amoy.polygonscan.com/address/0x2E4D2a90965178C0208927510D62F8aC4fC79321
-
-**Key Transaction:**
-- **Linking TX:** https://amoy.polygonscan.com/tx/0x072c2770d5c62297695a3a36feeafb8c04b16f90f8875efd51c3d7af766fe51a
-
----
-
-## 🛠️ Tech Stack
-
-**Smart Contracts:**
-- Solidity 0.8.20
-- OpenZeppelin (ERC-4626, ReentrancyGuard, SafeERC20)
-- Hardhat for deployment
-
-**Frontend:**
-- React + TypeScript + Vite
-- Wagmi v3 (blockchain queries)
-- Framer Motion (animations)
-- TailwindCSS + shadcn/ui
-
-**Backend:**
-- Convex (deposit history)
-- Real-time database subscriptions
-
----
-
-## 🎯 Summary
-
-AggLayer Yield AI demonstrates a **complete cross-chain yield optimization architecture**:
-
-✅ **Automated Rebalancing** - RebalanceExecutor manages yield strategies
-✅ **5% APY Generation** - MockAaveAdapter provides consistent returns
-✅ **Dual Vault System** - MATIC + USDC with different deposit flows
-✅ **Real-Time Data** - All metrics from blockchain (no simulation)
-✅ **Complete Transparency** - All contracts verified on PolygonScan
-
-The platform is **production-ready** and demonstrates the core concept of cross-chain yield optimization that will scale across Polygon PoS and zkEVM via AggLayer.
-
----
-
-*Architecture v1.0*
-*Last Updated: January 14, 2026*
-*Deployer: 0xA41Dbf17f2610086e7679348b268B67EF06B7b89*
+| Contract | Role / Mechanism | Functionality |
+|---|---|---|
+| **RebalanceExecutor** | `DEFAULT_ADMIN_ROLE` | Managed by protocol governance deployer wallet |
+| **RebalanceExecutor** | `EXECUTOR_ROLE` | Authorized to trigger rebalance execution |
+| **RebalanceExecutor** | `RELAYER_ROLE` | Authorized to submit TEE proofs & storage hashes |
+| **StrategyAgenticID** | `RECORDER_ROLE` | Granted to `RebalanceExecutor` to record verified decisions |
+| **NativeVault** | Rebalance Authorization | Restricts capital movement exclusively to `RebalanceExecutor` |

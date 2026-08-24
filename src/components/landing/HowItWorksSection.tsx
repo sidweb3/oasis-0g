@@ -4,33 +4,33 @@ const steps = [
   {
     num: "01",
     title: "Connect Wallet",
-    desc: "Connect MetaMask or any Web3 wallet. Switch to Polygon Mainnet (Chain 137) or Amoy Testnet (Chain 80002).",
+    desc: "Connect MetaMask or any Web3 wallet. Switch to 0G Chain Aristotle Mainnet (Chain ID 16661).",
     detail: "wagmi + viem",
   },
   {
     num: "02",
-    title: "Choose Vault",
-    desc: "Select USDC vault (ERC-4626 standard) or POL vault (native deposits). Both connected to RebalanceExecutor.",
-    detail: "ERC-4626 compliant",
+    title: "Choose Native Vault",
+    desc: "Deposit 0G tokens directly into NativeVault with instant 1-transaction confirmation.",
+    detail: "Native 0G Vault",
   },
   {
     num: "03",
-    title: "Deposit Assets",
-    desc: "Deposit with instant on-chain confirmation. Receive vault shares proportional to your deposit.",
-    detail: "1-2 tx flow",
+    title: "AI Inference & Proofs",
+    desc: "0G Compute model executes inference inside TEE enclave, generating cryptographic worker signatures.",
+    detail: "0G Compute TEE",
   },
   {
     num: "04",
-    title: "AI Rebalances",
-    desc: "RebalanceExecutor automatically moves assets to highest-yield positions. AI model forecasts optimal allocation.",
-    detail: "5% APY target",
+    title: "On-Chain Rebalance",
+    desc: "RebalanceExecutor verifies TEE proofs and commits full decision rationale to 0G Storage.",
+    detail: "0G Storage Audit",
   },
 ];
 
 export function HowItWorksSection() {
   return (
     <section className="py-24 relative overflow-hidden">
-      <div className="container px-4">
+      <div className="w-full px-8 md:px-12 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

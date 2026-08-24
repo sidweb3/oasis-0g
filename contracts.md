@@ -25,11 +25,11 @@ Below is the verified record of live transactions executed against the active 0G
 
 | Action / Operation | Target Contract | Block Number | Transaction Hash | Explorer Link |
 |---|---|---|---|---|
-| **Native 0G Deposit** | NativeVault | `#42403153` | `0x70d7aaa52e2a4a11cadffec22cbc0e89eee79857dd497888884db3adb29511b9` | [View Tx](https://chainscan.0g.ai/tx/0x70d7aaa52e2a4a11cadffec22cbc0e89eee79857dd497888884db3adb29511b9) |
-| **Request Rebalance** | RebalanceExecutor | `#42403164` | `0x473aec11fcc55ff01734a4628b9656dc6efb46c669f732f8ca3ab24db079ece7` | [View Tx](https://chainscan.0g.ai/tx/0x473aec11fcc55ff01734a4628b9656dc6efb46c669f732f8ca3ab24db079ece7) |
-| **Execute AI Rebalance** | RebalanceExecutor | `#42403175` | `0x66dbcf103a410bacf0384f05484fb0f1d36164a308e9b071d9b7943696afa61c` | [View Tx](https://chainscan.0g.ai/tx/0x66dbcf103a410bacf0384f05484fb0f1d36164a308e9b071d9b7943696afa61c) |
-| **Record Decision** | StrategyAgenticID | `#42403184` | `0xcabd6f6172cf8b1f5e0b4b24ac04902392f872d7b60f7c897363d1b86dcdb057` | [View Tx](https://chainscan.0g.ai/tx/0xcabd6f6172cf8b1f5e0b4b24ac04902392f872d7b60f7c897363d1b86dcdb057) |
-| **Mint Strategy Token #1** | StrategyAgenticID | `#42403194` | `0x45697fa5eb080b98182a5321e7d6a331f3063639775c8a0387bc548dafbbb4ee` | [View Tx](https://chainscan.0g.ai/tx/0x45697fa5eb080b98182a5321e7d6a331f3063639775c8a0387bc548dafbbb4ee) |
+| **Native 0G Deposit** | NativeVault | `#42450830` | `0x20ae5b5743341ccdfbd3dc5a9d293ac9669fb8d250ee079743ad234977b57b97` | [View Tx](https://chainscan.0g.ai/tx/0x20ae5b5743341ccdfbd3dc5a9d293ac9669fb8d250ee079743ad234977b57b97) |
+| **Request Rebalance** | RebalanceExecutor | `#42450855` | `0x89cda16675d2962155788dbf0ccb6612a734c72a7c005867dba88b0c6c45e80b` | [View Tx](https://chainscan.0g.ai/tx/0x89cda16675d2962155788dbf0ccb6612a734c72a7c005867dba88b0c6c45e80b) |
+| **Execute AI Rebalance** | RebalanceExecutor | `#42450873` | `0xae87882ed0cc5b3b8d322c87e1b9bae96c228ae725f580090862c16de411e63b` | [View Tx](https://chainscan.0g.ai/tx/0xae87882ed0cc5b3b8d322c87e1b9bae96c228ae725f580090862c16de411e63b) |
+| **Record Decision** | StrategyAgenticID | `#42450892` | `0x6c2e4aa282c365154562d3b835a82e8f0ea5d0e70ccb887c7ed0e750da48c94f` | [View Tx](https://chainscan.0g.ai/tx/0x6c2e4aa282c365154562d3b835a82e8f0ea5d0e70ccb887c7ed0e750da48c94f) |
+| **Mint Strategy Token #1** | StrategyAgenticID | `#42450908` | `0x1837a922ee237200a0e4f341b999c69e401bc60f0fc6d8dc696c3389691ae987` | [View Tx](https://chainscan.0g.ai/tx/0x1837a922ee237200a0e4f341b999c69e401bc60f0fc6d8dc696c3389691ae987) |
 
 ---
 

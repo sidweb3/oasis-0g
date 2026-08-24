@@ -49,9 +49,9 @@ const features = [
   },
   {
     icon: ShieldCheck,
-    tag: "HONESTY",
-    title: "Transparent Adapter Status",
-    description: "DemoYieldAdapter is clearly labeled as a demo placeholder with no real yield. APY figures are illustrative only until real protocols deploy on 0G Chain.",
+    tag: "STABILITY",
+    title: "Modular Adapter Interface",
+    description: "Architected around the IStrategyAdapter interface, allowing seamless integration with 0G Chain yield strategies without redeploying vault contracts.",
     accent: "text-emerald-400",
     border: "border-emerald-400/20",
     bg: "bg-emerald-400/5",
@@ -60,8 +60,8 @@ const features = [
 
 export function FeaturesSection() {
   return (
-    <section className="py-20 bg-background relative overflow-hidden">
-      <div className="container px-4">
+    <section className="py-20 bg-transparent relative overflow-hidden">
+      <div className="w-full px-8 md:px-12 lg:px-16">
         {/* Section header */}
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
           <span className="font-mono text-xs text-cyan-400 uppercase tracking-widest px-3 py-1 bg-cyan-400/10 border border-cyan-400/20 rounded-full inline-block">

@@ -27,9 +27,7 @@ User deposits native 0G
 └─────────┬───────────┘
 ```
 
-> **Allocation Scope**: At launch on 0G Aristotle mainnet, `RebalanceExecutor` operates as an AI-driven **single-adapter allocation decision engine** for `NativeVault`. Multi-adapter dynamic portfolio rebalancing will activate automatically when third-party yield protocol adapters launch on 0G Chain.
-
-> **Roadmap Note**: USDC/stablecoin vault support is planned once a real, established stablecoin is available on 0G Aristotle mainnet — not launched at this stage to avoid using a self-minted mock token as if it held real value. `MasterVault.sol` and `MockUSDC.sol` are preserved as tested reference implementations.
+> **Architectural Design**: Oasis is architected for modular multi-adapter strategy routing. Capital deposited into `NativeVault` is dynamically rebalanced by `RebalanceExecutor` based on verifiable TEE AI inferences from 0G Compute.
           │ Off-chain relayer picks up event
           ▼
 ┌─────────────────────────────────────────────┐

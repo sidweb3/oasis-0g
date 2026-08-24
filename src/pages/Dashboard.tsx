@@ -241,7 +241,7 @@ export default function Dashboard() {
   const apyDiff = (avgApy - marketAvgApy).toFixed(1);
 
   return (
-    <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
+    <div className="min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans selection:bg-primary/20 selection:text-primary">
       {/* Enhanced animated background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:64px_64px]" />
       <motion.div
@@ -260,8 +260,8 @@ export default function Dashboard() {
 
       <Navbar />
 
-      <main className="flex-1 w-full py-8 px-4 lg:px-8 relative z-10">
-        <div className="max-w-7xl mx-auto">
+      <main className="flex-1 w-full py-8 px-8 md:px-12 lg:px-16 relative z-10">
+        <div className="w-full">
           {/* Header Section */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}

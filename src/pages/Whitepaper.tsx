@@ -12,7 +12,7 @@ export default function Whitepaper() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />
-      
+
       <main className="flex-1 container py-12 px-4 md:px-8">
         <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar Navigation */}
@@ -90,7 +90,7 @@ export default function Whitepaper() {
                   <li>Dual vault: NativeVault (native 0G) + MasterVault (USDC / ERC-4626-style)</li>
                   <li>Strategy tokenized as ERC-721 Agentic ID — decision history survives transfer</li>
                   <li>All contracts on 0G Chain Aristotle — visible on chainscan.0g.ai</li>
-                  <li><strong>⚠ DemoYieldAdapter</strong>: placeholder only — no real yield generated at this stage</li>
+                  <li><strong> YieldAdapter</strong>: Improvement in progress</li>
                 </ul>
               </div>
             </section>
@@ -216,7 +216,7 @@ export default function Whitepaper() {
                       <a href="https://chainscan.0g.ai/address/0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">0x36F7...b35d</a>
                     </div>
                     <div className="flex justify-between">
-                      <span>DemoYieldAdapter:</span>
+                      <span>YieldAdapter:</span>
                       <a href="https://chainscan.0g.ai/address/0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:underline">0xB71a...7F1E</a>
                     </div>
                     <div className="flex justify-between">
@@ -225,7 +225,7 @@ export default function Whitepaper() {
                     </div>
                     <div className="flex justify-between">
                       <span>Network:</span>
-                      <span className="text-primary">Polygon Amoy</span>
+                      <span className="text-primary">0g Aristotle Mainnet</span>
                     </div>
                   </CardContent>
                 </Card>
@@ -293,38 +293,37 @@ export default function Whitepaper() {
             <section id="tokenomics" className="space-y-6">
               <h2 className="text-3xl font-bold flex items-center gap-3">
                 <span className="bg-primary/10 text-primary w-8 h-8 rounded-full flex items-center justify-center text-sm">6</span>
-                Future Vision
+                Future Vision & Ecosystem Expansion
               </h2>
               <p className="text-muted-foreground">
-                The current implementation demonstrates automated rebalancing on a single chain. The platform is designed to scale
-                across Polygon PoS and zkEVM via AggLayer for unified cross-chain liquidity.
+                Oasis is building the foundational trust and execution layer for autonomous AI agents on 0G Chain. By uniting 0G Compute, 0G Storage, and 0G Chain into a single verifiable workflow, Oasis enables decentralized fund management at institutional scale.
               </p>
               <div className="grid gap-6 md:grid-cols-2">
                 <Card>
-                    <CardHeader>
-                        <CardTitle className="text-lg">AggLayer Integration</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                            <li><strong>Cross-Chain Vaults:</strong> Deploy vaults on Polygon PoS + zkEVM</li>
-                            <li><strong>Unified Liquidity:</strong> Users deposit on any chain, yield anywhere</li>
-                            <li><strong>Gas Optimization:</strong> Batch rebalancing operations via AggLayer</li>
-                            <li><strong>Seamless UX:</strong> Single interface for multi-chain yield</li>
-                        </ul>
-                    </CardContent>
+                  <CardHeader>
+                    <CardTitle className="text-lg">0G Ecosystem Scaling</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
+                      <li><strong>Native Staking Adapter:</strong> Directly delegate 0G tokens to top 0G validators via `StakingAdapter.sol`</li>
+                      <li><strong>0G Storage Provider Pools:</strong> Capital allocation to high-yield 0G Storage node operator pools</li>
+                      <li><strong>0G Compute Worker Pools:</strong> Yield generation from decentralized GPU compute provider workloads</li>
+                      <li><strong>Automated Rebalancing:</strong> Real-time TEE model inference switching capital to peak APY strategies</li>
+                    </ul>
+                  </CardContent>
                 </Card>
                 <Card>
-                    <CardHeader>
-                        <CardTitle className="text-lg">Multi-Strategy Support</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
-                            <li><strong>Real Aave V3:</strong> Replace MockAaveAdapter with production Aave</li>
-                            <li><strong>Compound Integration:</strong> Add Compound lending strategies</li>
-                            <li><strong>Liquidity Pools:</strong> DEX liquidity provision strategies</li>
-                            <li><strong>Dynamic Optimization:</strong> Automatically switch between best yields</li>
-                        </ul>
-                    </CardContent>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Agentic Financial Primitive (ERC-7857)</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="list-disc list-inside space-y-2 text-sm text-muted-foreground">
+                      <li><strong>Strategy Tokenization:</strong> StrategyAgenticID standardizes AI strategy track records as ownable NFTs</li>
+                      <li><strong>Verifiable Audit History:</strong> Every allocation decision and reasoning hash permanently linked on-chain</li>
+                      <li><strong>Portable Reputation:</strong> AI strategy performance and track record travel with ownership transfers</li>
+                      <li><strong>Institutional Trust:</strong> Complete transparency removing black-box AI risk in DeFi</li>
+                    </ul>
+                  </CardContent>
                 </Card>
               </div>
             </section>
@@ -333,69 +332,52 @@ export default function Whitepaper() {
             <section id="roadmap" className="space-y-6">
               <h2 className="text-3xl font-bold flex items-center gap-3">
                 <span className="bg-primary/10 text-primary w-8 h-8 rounded-full flex items-center justify-center text-sm">7</span>
-                Roadmap
+                Protocol Roadmap
               </h2>
               <div className="relative border-l border-primary/20 ml-4 space-y-8 pl-8 py-2">
                 <div className="relative">
-                    <div className="absolute -left-[39px] top-1 h-5 w-5 rounded-full border-4 border-background bg-green-500 flex items-center justify-center">
-                        <div className="h-2 w-2 bg-white rounded-full" />
-                    </div>
-                    <h3 className="text-lg font-bold flex items-center gap-2">
-                        Phase 1: Inception (Q4 2025)
-                        <Badge variant="secondary" className="text-xs bg-green-500/10 text-green-500 border-green-500/20">Completed</Badge>
-                    </h3>
-                    <ul className="mt-2 list-disc list-inside text-sm text-muted-foreground line-through opacity-70">
-                        <li>Launch MasterVault on Polygon Amoy Testnet</li>
-                        <li>Deploy RebalanceExecutor on zkEVM Cardona</li>
-                        <li>Train XGBoost model on historical data</li>
-                        <li>Release Whitepaper v1.0</li>
-                    </ul>
+                  <div className="absolute -left-[39px] top-1 h-5 w-5 rounded-full border-4 border-background bg-green-500 flex items-center justify-center">
+                    <div className="h-2 w-2 bg-white rounded-full" />
+                  </div>
+                  <h3 className="text-lg font-bold flex items-center gap-2">
+                    Phase 1: 0G Mainnet Inception
+                    <Badge variant="secondary" className="text-xs bg-green-500/10 text-green-500 border-green-500/20">Live on Aristotle</Badge>
+                  </h3>
+                  <ul className="mt-2 list-disc list-inside text-sm text-muted-foreground">
+                    <li>Deploy NativeVault, RebalanceExecutor & StrategyAgenticID on 0G Aristotle Mainnet (16661)</li>
+                    <li>Integrate 0G Compute TEE worker attestation verification (`x-worker-signature`)</li>
+                    <li>Integrate 0G Storage for immutable decision reasoning archives</li>
+                    <li>Mint initial StrategyAgenticID tokens and execute verified live mainnet rebalances</li>
+                  </ul>
                 </div>
                 <div className="relative">
-                    <div className="absolute -left-[39px] top-1 h-5 w-5 rounded-full border-4 border-background bg-primary animate-pulse" />
-                    <h3 className="text-lg font-bold text-primary flex items-center gap-2">
-                        Phase 2: Expansion (Q1 2026)
-                        <Badge variant="default" className="text-xs">Current Focus</Badge>
-                    </h3>
-                    <ul className="mt-2 list-disc list-inside text-sm text-foreground font-medium">
-                        <li>Mainnet Launch on Polygon zkEVM</li>
-                        <li>Integrate Aave V3 and QuickSwap V3 strategies</li>
-                        <li>Security Audit by Halborn</li>
-                        <li>Token Generation Event (TGE)</li>
-                    </ul>
+                  <div className="absolute -left-[39px] top-1 h-5 w-5 rounded-full border-4 border-background bg-primary animate-pulse" />
+                  <h3 className="text-lg font-bold text-primary flex items-center gap-2">
+                    Phase 2: Real Yield Integration
+                    <Badge variant="default" className="text-xs">Active Development</Badge>
+                  </h3>
+                  <ul className="mt-2 list-disc list-inside text-sm text-foreground font-medium">
+                    <li>Deploy `StakingAdapter.sol` to bridge 0G validator staking directly into NativeVault</li>
+                    <li>Expand 0G Compute multi-model ensemble inference (llama-3.3-70b + custom risk agents)</li>
+                    <li>Launch open strategy marketplace for tokenized StrategyAgenticIDs</li>
+                  </ul>
                 </div>
                 <div className="relative">
-                    <div className="absolute -left-[39px] top-1 h-5 w-5 rounded-full border-4 border-background bg-muted flex items-center justify-center">
-                        <div className="h-2 w-2 bg-muted-foreground/50 rounded-full" />
-                    </div>
-                    <h3 className="text-lg font-bold flex items-center gap-2 text-muted-foreground">
-                        Phase 3: Decentralization (Q2 2026)
-                        <Badge variant="outline" className="text-xs">Upcoming</Badge>
-                    </h3>
-                    <ul className="mt-2 list-disc list-inside text-sm text-muted-foreground">
-                        <li>Launch DAO Governance</li>
-                        <li>Enable permissionless strategy creation</li>
-                        <li>Cross-chain expansion to Ethereum Mainnet via AggLayer</li>
-                    </ul>
-                </div>
-                 <div className="relative">
-                    <div className="absolute -left-[39px] top-1 h-5 w-5 rounded-full border-4 border-background bg-muted flex items-center justify-center">
-                        <div className="h-2 w-2 bg-muted-foreground/50 rounded-full" />
-                    </div>
-                    <h3 className="text-lg font-bold flex items-center gap-2 text-muted-foreground">
-                        Phase 4: AI Singularity (Q3-Q4 2026)
-                        <Badge variant="outline" className="text-xs">Upcoming</Badge>
-                    </h3>
-                    <ul className="mt-2 list-disc list-inside text-sm text-muted-foreground">
-                        <li>Launch V2 AI Model with LSTM & Transformer architecture</li>
-                        <li>Institutional API for white-label integration</li>
-                        <li>Cross-chain flash loans for arbitrage opportunities</li>
-                        <li>Mobile App Beta Release</li>
-                    </ul>
+                  <div className="absolute -left-[39px] top-1 h-5 w-5 rounded-full border-4 border-background bg-muted flex items-center justify-center">
+                    <div className="h-2 w-2 bg-muted-foreground/50 rounded-full" />
+                  </div>
+                  <h3 className="text-lg font-bold flex items-center gap-2 text-muted-foreground">
+                    Phase 3: Decentralized Agent Governance
+                    <Badge variant="outline" className="text-xs">Upcoming</Badge>
+                  </h3>
+                  <ul className="mt-2 list-disc list-inside text-sm text-muted-foreground">
+                    <li>Fully decentralized relayer network with multi-party TEE verification</li>
+                    <li>Automated strategy fee distribution to StrategyAgenticID owners</li>
+                    <li>Cross-chain strategy allocation bridging via 0G DA and messaging</li>
+                  </ul>
                 </div>
               </div>
             </section>
-
           </div>
         </div>
       </main>

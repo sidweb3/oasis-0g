@@ -11,9 +11,7 @@ export function Footer() {
           {/* Brand */}
           <div className="col-span-2">
             <Link to="/" className="flex items-center gap-2.5 mb-4">
-              <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-cyan-500 to-indigo-600 flex items-center justify-center">
-                <Layers className="h-4 w-4 text-white" />
-              </div>
+              <img src="/oasis-emblem.svg" alt="Oasis Emblem" className="h-9 w-9 object-contain drop-shadow-[0_0_12px_rgba(6,182,212,0.5)]" />
               <span className="font-black text-lg tracking-tight">
                 OASIS <span className="text-cyan-400">0G</span>
               </span>

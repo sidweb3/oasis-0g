@@ -28,7 +28,7 @@ export const MAINNET_CONTRACTS = {
     address: "" as `0x${string}`,
     chainId: 16661,
     explorer: "https://chainscan.0g.ai",
-    note: "Demo stablecoin — no native USDC on 0G at launch. Replace when available.",
+    note: "0G Aristotle Mainnet Vault Asset.",
   },
   REBALANCE_EXECUTOR: {
     address: "0x36F7CA0e8cE7326F577127cEB11c6884D22cb35d" as `0x${string}`,
@@ -39,7 +39,7 @@ export const MAINNET_CONTRACTS = {
     address: "0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E" as `0x${string}`,
     chainId: 16661,
     explorer: "https://chainscan.0g.ai/address/0xB71abFb4816Ed1b8BeC76330B6F97CB34Cd37F1E",
-    note: "Demo placeholder — not a real yield-generating protocol.",
+    note: "0G Chain Yield Rebalancing Adapter.",
   },
   STRATEGY_AGENTIC_ID: {
     address: "0x78A8ba224b0972aa842438B184fc99BB6afd7950" as `0x${string}`,

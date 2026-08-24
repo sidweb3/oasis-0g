@@ -56,7 +56,7 @@ export function StatsSection() {
 
   return (
     <section className="py-24 relative">
-      <div className="container px-4">
+      <div className="w-full px-8 md:px-12 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

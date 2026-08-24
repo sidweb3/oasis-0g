@@ -31,12 +31,10 @@ export function Navbar() {
 
   return (
     <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 sticky top-0 z-50">
-      <div className="container flex h-14 items-center justify-between px-4">
+      <div className="w-full px-8 md:px-12 flex h-16 items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2.5 font-black text-base tracking-tight">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-cyan-500 to-indigo-600 flex items-center justify-center">
-            <Layers className="h-4 w-4 text-white" />
-          </div>
+          <img src="/oasis-emblem.svg" alt="Oasis Emblem" className="h-9 w-9 object-contain drop-shadow-[0_0_12px_rgba(6,182,212,0.5)]" />
           <span>
             OASIS <span className="text-cyan-400">0G</span>
           </span>

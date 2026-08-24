@@ -42,22 +42,17 @@ Oasis operates natively on 0G Chain Aristotle mainnet gas token deposits (`0G`) 
 - **Verifiable AI Rebalancing**: `RebalanceExecutor` records TEE attestation worker signatures from 0G Compute and uploads decision reasoning payloads to 0G Storage.
 - **Strategy Agentic ID**: ERC-721 tokenizing AI strategy identity and permanent on-chain decision history.
 
+## Live Mainnet Transaction Proofs (0G Chain Aristotle)
 
+Every step of the Oasis portfolio optimization pipeline has been executed live on **0G Aristotle Mainnet (Chain ID 16661)**:
 
-## Live Mainnet End-to-End Cycle Verification
-Executed a complete mainnet cycle on 0G Aristotle Mainnet (Chain ID 16661):
-
-Step	Action & Function Call	Target Contract	Block #	Live 0G Explorer Link
-1. Deposit	NativeVault.deposit(0.05 0G)	NativeVault
-(0xBe08...5FF3)	#42450830	0x20ae5b5743341ccdfbd3dc5a9d293ac9669fb8d250ee079743ad234977b57b97
-2. Request	RebalanceExecutor.requestRebalance(0.05 0G)	RebalanceExecutor
-(0x36F7...b35d)	#42450855	0x89cda16675d2962155788dbf0ccb6612a734c72a7c005867dba88b0c6c45e80b
-3. Execute	RebalanceExecutor.executeRebalance(ID #3)	RebalanceExecutor
-(0x36F7...b35d)	#42450873	0xae87882ed0cc5b3b8d322c87e1b9bae96c228ae725f580090862c16de411e63b
-4. Record	StrategyAgenticID.recordDecision(Token #0)	StrategyAgenticID
-(0x78A8...7950)	#42450892	0x6c2e4aa282c365154562d3b835a82e8f0ea5d0e70ccb887c7ed0e750da48c94f
-5. Mint	StrategyAgenticID.mintStrategy(Token #1)	StrategyAgenticID
-(0x78A8...7950)	#42450908	0x1837a922ee237200a0e4f341b999c69e401bc60f0fc6d8dc696c3389691ae987
+| Step | Action | Contract Target | Block # | Live 0G Explorer Link |
+|---|---|---|---|---|
+| **1. Deposit** | `NativeVault.deposit(0.05 0G)` | `NativeVault` (`0xBe08...5FF3`) | `#42450830` | [0x20ae5b5743341ccdfbd3dc5a9d293ac9669fb8d250ee079743ad234977b57b97](https://chainscan.0g.ai/tx/0x20ae5b5743341ccdfbd3dc5a9d293ac9669fb8d250ee079743ad234977b57b97) |
+| **2. Request** | `RebalanceExecutor.requestRebalance(0.05 0G)` | `RebalanceExecutor` (`0x36F7...b35d`) | `#42450855` | [0x89cda16675d2962155788dbf0ccb6612a734c72a7c005867dba88b0c6c45e80b](https://chainscan.0g.ai/tx/0x89cda16675d2962155788dbf0ccb6612a734c72a7c005867dba88b0c6c45e80b) |
+| **3. Execute** | `RebalanceExecutor.executeRebalance(ID #3)` | `RebalanceExecutor` (`0x36F7...b35d`) | `#42450873` | [0xae87882ed0cc5b3b8d322c87e1b9bae96c228ae725f580090862c16de411e63b](https://chainscan.0g.ai/tx/0xae87882ed0cc5b3b8d322c87e1b9bae96c228ae725f580090862c16de411e63b) |
+| **4. Record** | `StrategyAgenticID.recordDecision(Token #0)` | `StrategyAgenticID` (`0x78A8...7950`) | `#42450892` | [0x6c2e4aa282c365154562d3b835a82e8f0ea5d0e70ccb887c7ed0e750da48c94f](https://chainscan.0g.ai/tx/0x6c2e4aa282c365154562d3b835a82e8f0ea5d0e70ccb887c7ed0e750da48c94f) |
+| **5. Mint** | `StrategyAgenticID.mintStrategy(Token #1)` | `StrategyAgenticID` (`0x78A8...7950`) | `#42450908` | [0x1837a922ee237200a0e4f341b999c69e401bc60f0fc6d8dc696c3389691ae987](https://chainscan.0g.ai/tx/0x1837a922ee237200a0e4f341b999c69e401bc60f0fc6d8dc696c3389691ae987) |
 
 ## Quick Start
 

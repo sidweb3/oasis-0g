@@ -10,7 +10,7 @@ export function CTASection() {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:40px_40px]" />
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/3 to-transparent" />
 
-      <div className="container px-4 relative z-10">
+      <div className="w-full px-8 md:px-12 lg:px-16 relative z-10">
         <div className="max-w-4xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -38,7 +38,7 @@ export function CTASection() {
               </h2>
 
               <p className="text-muted-foreground mb-10 max-w-xl mx-auto leading-relaxed">
-                Deposit USDC or POL, track your vault shares in real-time, and view complete transaction history on Polygon. No simulation — real on-chain yields.
+                Deposit native 0G tokens, track your vault shares in real-time, and view complete TEE attestation proofs and transaction history on 0G ChainScan.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

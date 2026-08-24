@@ -27,6 +27,7 @@ import DownloadPage from "./pages/Download.tsx";
 import DeployGuide from "./pages/DeployGuide.tsx";
 import Whitepaper from "./pages/Whitepaper.tsx";
 import AgenticID from "./pages/AgenticID.tsx";
+import NoiseDarkBlueGradientBackground from "@/components/ui/noise-dark-blue-gradient-with-squares";
 
 // Simple loading fallback for route transitions
 function RouteLoading() {

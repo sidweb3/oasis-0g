@@ -3,7 +3,7 @@ import { Shield, Users, Cpu, Database, Zap } from "lucide-react";
 
 export function Features() {
   return (
-    <section className="bg-background py-16 md:py-24 border-t border-border/40 relative overflow-hidden">
+    <section className="bg-transparent py-16 md:py-24 border-t border-border/40 relative overflow-hidden">
       <div className="mx-auto max-w-3xl lg:max-w-6xl px-6">
         <div className="text-center space-y-4 mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-xs font-mono tracking-wider uppercase">

@@ -38,8 +38,8 @@ function Auth({ redirectAfterAuth }: AuthProps = {}) {
         <Card className="w-full max-w-md border-primary/20 bg-card/50 backdrop-blur">
           <CardHeader className="text-center space-y-4">
             <div className="flex justify-center">
-              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
-                <Wallet className="h-8 w-8 text-primary" />
+              <div className="h-16 w-16 rounded-2xl bg-cyan-500/10 flex items-center justify-center border border-cyan-500/30 shadow-[0_0_25px_rgba(6,182,212,0.2)]">
+                <img src="/oasis-emblem.svg" alt="Oasis Emblem" className="h-10 w-10 object-contain drop-shadow-[0_0_10px_rgba(6,182,212,0.5)]" />
               </div>
             </div>
             <div className="space-y-2">

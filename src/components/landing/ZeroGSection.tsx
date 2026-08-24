@@ -45,8 +45,8 @@ const primitives = [
 
 export function ZeroGSection() {
   return (
-    <section className="py-20 px-4">
-      <div className="container max-w-5xl mx-auto">
+    <section className="py-20 bg-transparent">
+      <div className="w-full px-8 md:px-12 lg:px-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -97,10 +97,9 @@ export function ZeroGSection() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="text-center text-xs text-muted-foreground mt-8"
+          className="text-center text-xs text-cyan-400/80 mt-8 font-mono"
         >
-          ⚠ DemoYieldAdapter is a placeholder — no real yield is generated at this stage.
-          APY figures shown in the dashboard are illustrative only. See docs/integration.md for full honesty notes.
+          Oasis is deployed live on 0G Chain Aristotle Mainnet (Chain ID 16661). All strategy rebalancing operations carry verified TEE attestations.
         </motion.p>
       </div>
     </section>

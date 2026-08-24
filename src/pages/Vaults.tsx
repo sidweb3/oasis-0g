@@ -28,13 +28,13 @@ export default function Vaults() {
     const vaults = (rawVaults && rawVaults.length > 0) ? rawVaults : FALLBACK_VAULTS;
 
     return (
-        <div className="min-h-screen bg-background flex flex-col relative overflow-hidden">
+        <div className="min-h-screen bg-transparent flex flex-col relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background -z-10" />
             <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl -z-10" />
 
             <Navbar />
 
-            <main className="flex-1 container py-12 px-4 space-y-12">
+            <main className="flex-1 max-w-7xl mx-auto py-12 px-6 md:px-10 space-y-12 w-full">
                 <div className="flex flex-col md:flex-row justify-between items-end gap-6">
                     <div className="space-y-2">
                         <motion.h1

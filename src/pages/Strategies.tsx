@@ -44,7 +44,7 @@ export default function Strategies() {
 
     return (
         <TooltipProvider>
-            <div className="min-h-screen bg-background flex flex-col relative">
+            <div className="min-h-screen bg-transparent flex flex-col relative">
                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px] -z-10" />
 
                 <Navbar />
