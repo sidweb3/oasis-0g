@@ -96,7 +96,11 @@ function TerminalBlock() {
   );
 }
 
-export function HeroSection() {
+interface HeroSectionProps {
+  sectionRef?: React.RefObject<HTMLDivElement | null>;
+}
+
+export function HeroSection({ sectionRef }: HeroSectionProps = {}) {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -123,27 +127,28 @@ export function HeroSection() {
     <>
       <TickerBar />
       <section
+        ref={sectionRef}
         onMouseMove={handleMouseMove}
         className="relative py-16 md:py-24 overflow-hidden bg-transparent"
       >
         <div className="w-full px-8 md:px-12 lg:px-16 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left: Headline & CTA */}
-            <div>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            
+            {/* Left: Headline & CTA (col-span-5) */}
+            <div className="lg:col-span-5">
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
                 className="flex items-center gap-3 mb-8"
               >
-                <div className="flex items-center gap-2 px-3 py-1 border border-cyan-500/40 bg-cyan-500/5 rounded-sm font-mono text-xs text-cyan-400">
-                  <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
-                  SYSTEM ONLINE
-                </div>
-                <div className="flex items-center gap-2 px-3 py-1 border border-border rounded-sm font-mono text-xs text-muted-foreground">
-                  <Activity className="w-3 h-3 text-cyan-400" />
-                  0G ARISTOTLE (16661)
-                </div>
+                <span className="font-mono text-[10px] tracking-[0.032em] text-[#e5ff5d] uppercase font-bold bg-[#e5ff5d]/10 px-3 py-1 rounded-[4px] border border-[#e5ff5d]/30 flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 bg-[#e5ff5d] rounded-full animate-pulse" />
+                  0G CHAIN ARISTOTLE (16661)
+                </span>
+                <span className="font-mono text-[10px] tracking-[0.032em] text-[#9c9c9c] uppercase font-medium">
+                  VERIFIABLE AI INFRASTRUCTURE
+                </span>
               </motion.div>
 
               <motion.div
@@ -151,18 +156,13 @@ export function HeroSection() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
-                <div className="font-mono text-xs text-muted-foreground mb-3 tracking-widest uppercase">
-                  // Oasis Protocol v1.0
-                </div>
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[0.95] mb-6">
-                  <span className="block text-foreground">VERIFIABLE AI</span>
-                  <span className="block text-cyan-400">YIELD VAULT</span>
-                  <span className="block text-muted-foreground text-3xl font-bold mt-2">
-                    ON 0G CHAIN
-                  </span>
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-normal tracking-[-0.8px] leading-[0.95] uppercase text-[#f9f9f9] mb-8">
+                  VERIFIABLE AI <br />
+                  YIELD VAULT <br />
+                  <span className="text-[#9c9c9c]">ON 0G CHAIN</span>
                 </h1>
-                <p className="text-muted-foreground text-base leading-relaxed mb-8 max-w-lg font-light">
-                  Rebalancing decisions made by an AI model running on 0G Compute, logged to 0G Storage with TEE attestations, and tokenized as an Agentic ID.
+                <p className="text-[#9c9c9c] text-sm leading-[1.5] mb-10 max-w-lg font-normal">
+                  Rebalancing decisions made by AI models running on 0G Compute, signed inside TEE worker enclaves, permanently logged to 0G Storage, and tokenized as Strategy Agentic IDs.
                 </p>
               </motion.div>
 
@@ -170,25 +170,18 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="flex flex-col sm:flex-row gap-4 mb-12"
+                className="flex flex-wrap items-center gap-4 mb-12"
               >
                 <Link to="/auth">
-                  <Button
-                    size="lg"
-                    className="h-12 px-8 text-sm font-bold tracking-widest uppercase rounded-sm border-0 bg-cyan-600 text-white hover:bg-cyan-500 transition-all duration-200"
-                  >
-                    Launch App
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+                  <button className="bg-[#e5ff5d] text-[#111111] hover:bg-[#d6f04e] px-6 py-3 rounded-[4px] font-medium text-xs tracking-wide uppercase flex items-center gap-2 transition-colors">
+                    LAUNCH VAULT TERMINAL
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
                 </Link>
                 <Link to="/whitepaper">
-                  <Button
-                    size="lg"
-                    variant="outline"
-                    className="h-12 px-8 text-sm font-bold tracking-widest uppercase rounded-sm border-border hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-all duration-200"
-                  >
-                    Documentation
-                  </Button>
+                  <button className="border border-[#f9f9f9] text-[#f9f9f9] hover:bg-[#f9f9f9]/10 px-5 py-3 rounded-[4px] font-medium text-xs tracking-[0.032em] uppercase transition-colors">
+                    VIEW ARCHITECTURE SPEC
+                  </button>
                 </Link>
               </motion.div>
 
@@ -197,7 +190,7 @@ export function HeroSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="grid grid-cols-3 gap-4 border-t border-border pt-8"
+                className="grid grid-cols-3 gap-4 border-t border-[#2b2b2b] pt-6"
               >
                 {[
                   { label: "PRIMITIVES", value: "5", sub: "0G Stack" },
@@ -205,19 +198,32 @@ export function HeroSection() {
                   { label: "CHAIN ID", value: "16661", sub: "Aristotle" },
                 ].map((s, i) => (
                   <div key={i} className="text-center">
-                    <div className="font-mono text-xl font-bold text-cyan-400">{s.value}</div>
-                    <div className="text-xs text-muted-foreground uppercase tracking-wider mt-1">{s.sub} {s.label}</div>
+                    <div className="font-mono text-lg font-bold text-[#e5ff5d]">{s.value}</div>
+                    <div className="text-[10px] text-[#9c9c9c] uppercase tracking-wider mt-1">{s.sub} {s.label}</div>
                   </div>
                 ))}
               </motion.div>
             </div>
 
-            {/* Right: Terminal & Contracts card */}
+            {/* Center: #hero-dock-target (col-span-2) */}
+            <div className="lg:col-span-2 flex justify-center py-6">
+              <div
+                id="hero-dock-target"
+                className="w-36 h-36 rounded-full border border-[#2b2b2b] bg-[#1a1a1a]/40 flex items-center justify-center relative transition-all duration-300 shadow-[0_0_25px_rgba(229,255,93,0.1)]"
+              >
+                <span className="font-mono text-[9px] text-[#e5ff5d] uppercase tracking-[0.032em] font-bold opacity-60">
+                  0G CORE SIGNAL
+                </span>
+              </div>
+            </div>
+
+            {/* Right: Terminal & Contracts card (col-span-5) */}
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
               style={{ x, y }}
+              className="lg:col-span-5"
             >
               <TerminalBlock />
 

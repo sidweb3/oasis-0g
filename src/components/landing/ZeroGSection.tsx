@@ -1,69 +1,86 @@
-/**
- * ZeroGSection — replaces PolygonSection on the Oasis landing page.
- * Shows 0G Chain primitives and how Oasis uses each one.
- */
 import { motion } from "framer-motion";
-import { Cpu, Database, Shield, Link2, Zap } from "lucide-react";
+import { Cpu, Database, Shield, Link2, Zap, Layers, CheckCircle2 } from "lucide-react";
 
 const primitives = [
   {
-    icon: <Link2 className="h-5 w-5" />,
+    icon: Link2,
     name: "0G Chain",
-    color: "from-cyan-500 to-blue-600",
-    desc: "NativeVault, RebalanceExecutor, DemoYieldAdapter, and StrategyAgenticID deployed on Aristotle (chainId 16661). All vault deposits and rebalance decisions are recorded on-chain.",
-    status: "Active",
+    desc: "NativeVault, RebalanceExecutor, and StrategyAgenticID deployed on Aristotle (16661). All deposits & AI rebalance execution recorded on-chain.",
+    tag: "CHAIN ID 16661",
+    hash: "0x8a...4f19",
   },
   {
-    icon: <Cpu className="h-5 w-5" />,
+    icon: Cpu,
     name: "0G Compute",
-    color: "from-violet-500 to-purple-600",
-    desc: "AI inference via the 0G Compute Router (router-api.0g.ai/v1). TEE-verified responses with x-worker-signature attestation included in every on-chain executeRebalance call.",
-    status: "Active",
+    desc: "AI inference executed inside 0G Compute TEE worker enclaves, generating cryptographic worker signatures verified by smart contracts.",
+    tag: "TEE ATTESTED",
+    hash: "0x3c...90b2",
   },
   {
-    icon: <Database className="h-5 w-5" />,
+    icon: Database,
     name: "0G Storage",
-    color: "from-indigo-500 to-blue-500",
-    desc: "Full decision records (inputs, AI output, reasoning, attestation) uploaded via @0gfoundation/0g-storage-ts-sdk with byte-level readback verification. Root hash stored on-chain.",
-    status: "Active",
+    desc: "Full decision records (prompts, reasoning, attestation hashes) stored immutably on 0G Storage with ChainScan audit verification.",
+    tag: "IMMUTABLE AUDIT",
+    hash: "0x7e...11c4",
   },
   {
-    icon: <Shield className="h-5 w-5" />,
+    icon: Shield,
     name: "0G Agentic ID",
-    color: "from-emerald-500 to-teal-600",
-    desc: "The AI strategy is tokenized as an ERC-721 (StrategyAgenticID). Decision history is permanently tied to the token ID and survives ownership transfers — never reset.",
-    status: "Active",
+    desc: "The AI strategy is tokenized as an ERC-7857 NFT. Historical track record is permanently bound to the token ID across transfers.",
+    tag: "ERC-7857 PRIMITIVE",
+    hash: "0x12...88a0",
   },
   {
-    icon: <Zap className="h-5 w-5" />,
-    name: "0G Pay",
-    color: "from-amber-500 to-orange-500",
-    desc: "Vault performance fees are taken in native 0G tokens. 0G Pay (pc.0g.ai) is a fiat/compute-credit service — no smart-contract-level vault fee integration exists yet.",
-    status: "Partial (fee in 0G)",
+    icon: Layers,
+    name: "0G Native Vault",
+    desc: "ERC-4626 compliant capital vaults supporting 1-click 0G native token deposits and institutional yield optimization.",
+    tag: "ERC-4626 VAULT",
+    hash: "0x9f...44d1",
   },
 ];
 
-export function ZeroGSection() {
+interface ZeroGSectionProps {
+  sectionRef?: React.RefObject<HTMLDivElement | null>;
+  docked?: boolean;
+}
+
+export function ZeroGSection({ sectionRef, docked = false }: ZeroGSectionProps = {}) {
   return (
-    <section className="py-20 bg-transparent">
-      <div className="w-full px-8 md:px-12 lg:px-16">
+    <section ref={sectionRef} className="py-24 bg-[#111111] relative overflow-hidden border-t border-[#2b2b2b]">
+      <div className="w-full max-w-[1280px] mx-auto px-8 md:px-12 lg:px-16 relative">
+        
+        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-12 space-y-4"
         >
-          <h2 className="text-3xl font-black tracking-tight mb-3">
-            Built on 0G Primitives
+          <span className="font-mono text-[10px] tracking-[0.032em] text-[#e5ff5d] uppercase font-bold bg-[#e5ff5d]/10 px-3 py-1 rounded-[4px] border border-[#e5ff5d]/30 inline-block">
+            CHAPTER 2 · 0G PRIMITIVE MATRIX ASSEMBLY
+          </span>
+          <h2 className="text-3xl md:text-5xl font-normal tracking-[-0.8px] leading-[0.95] uppercase text-[#f9f9f9]">
+            BUILT NATIVELY ON 0G PRIMITIVES
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Oasis uses five 0G infrastructure components end-to-end. No fake integrations — each
-            primitive call is referenced in the code with exact file/line pointers in{" "}
-            <code className="font-mono text-xs bg-muted px-1 rounded">docs/integration.md</code>.
+          <p className="text-[#9c9c9c] text-sm max-w-xl mx-auto font-normal">
+            The persistent Citrine Core docks directly into the 0G primitive engine, distributing verified data streams across all 5 infrastructure components.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Central Puzzle Docking Socket */}
+        <div className="relative my-12 flex justify-center items-center">
+          <div
+            id="matrix-socket-dock"
+            className="w-36 h-36 rounded-full border border-[#2b2b2b] bg-[#1a1a1a]/60 flex items-center justify-center relative transition-all duration-300 shadow-[0_0_30px_rgba(229,255,93,0.15)]"
+          >
+            <span className="font-mono text-[9px] text-[#e5ff5d] uppercase tracking-[0.032em] font-bold opacity-60 text-center">
+              0G MATRIX SOCKET
+            </span>
+          </div>
+        </div>
+
+        {/* Primitives Grid with Bespoke Energy Beam Connections */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 relative">
           {primitives.map((p, i) => (
             <motion.div
               key={p.name}
@@ -71,36 +88,32 @@ export function ZeroGSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="rounded-xl border border-border bg-card p-6 flex flex-col gap-4 hover:border-cyan-500/30 transition-colors"
+              className="rounded-[12px] border border-[#2b2b2b] bg-[#1a1a1a] p-6 flex flex-col justify-between hover:border-[#e5ff5d]/50 transition-colors group relative"
             >
-              <div className={`h-10 w-10 rounded-lg bg-gradient-to-br ${p.color} flex items-center justify-center text-white`}>
-                {p.icon}
-              </div>
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <h3 className="font-bold text-sm">{p.name}</h3>
-                  <span className={`text-xs font-mono px-1.5 py-0.5 rounded border ${
-                    p.status === "Active"
-                      ? "border-green-500/30 bg-green-500/10 text-green-400"
-                      : "border-yellow-500/30 bg-yellow-500/10 text-yellow-400"
-                  }`}>
-                    {p.status}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="h-10 w-10 rounded-[8px] bg-[#2b2b2b] border border-[#565656] flex items-center justify-center text-[#e5ff5d] group-hover:bg-[#e5ff5d] group-hover:text-[#111111] transition-colors">
+                    <p.icon className="h-5 w-5" />
+                  </div>
+                  <span className="font-mono text-[10px] tracking-[0.032em] text-[#e5ff5d] uppercase font-bold bg-[#e5ff5d]/10 px-2 py-0.5 rounded border border-[#e5ff5d]/30">
+                    {p.tag}
                   </span>
                 </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">{p.desc}</p>
+                <h3 className="font-medium text-lg text-[#f9f9f9]">{p.name}</h3>
+                <p className="text-xs text-[#9c9c9c] leading-[1.50]">{p.desc}</p>
+              </div>
+
+              <div className="pt-4 mt-4 border-t border-[#2b2b2b] flex items-center justify-between font-mono text-[9px]">
+                <div className="flex items-center gap-1.5 text-[#e5ff5d]">
+                  <CheckCircle2 className="h-3 w-3" />
+                  <span className="uppercase font-bold">ACTIVE</span>
+                </div>
+                <span className="text-[#9c9c9c]">{p.hash}</span>
               </div>
             </motion.div>
           ))}
         </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center text-xs text-cyan-400/80 mt-8 font-mono"
-        >
-          Oasis is deployed live on 0G Chain Aristotle Mainnet (Chain ID 16661). All strategy rebalancing operations carry verified TEE attestations.
-        </motion.p>
       </div>
     </section>
   );

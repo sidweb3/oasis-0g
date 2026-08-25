@@ -5,6 +5,7 @@ import { Link, useLocation } from "react-router";
 import { toast } from "sonner";
 import { useState } from "react";
 import { isDeployed } from "@/lib/contracts";
+import { CitrineCube } from "@/components/ui/CitrineCube";
 
 export function Navbar() {
   const { isAuthenticated, signOut, address } = useAuth();
@@ -30,26 +31,26 @@ export function Navbar() {
   const deployed = isDeployed();
 
   return (
-    <nav className="border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80 sticky top-0 z-50">
+    <nav className="border-b border-[#2b2b2b] bg-[#111111]/95 backdrop-blur sticky top-0 z-50">
       <div className="w-full px-8 md:px-12 flex h-16 items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center gap-2.5 font-black text-base tracking-tight">
-          <img src="/oasis-emblem.svg" alt="Oasis Emblem" className="h-9 w-9 object-contain drop-shadow-[0_0_12px_rgba(6,182,212,0.5)]" />
+        <Link to="/" className="flex items-center gap-3 font-medium text-xl tracking-[0.027em] text-[#f9f9f9]">
+          <CitrineCube size={28} glow={false} />
           <span>
-            OASIS <span className="text-cyan-400">0G</span>
+            OASIS <span className="text-[#e5ff5d]">0G</span>
           </span>
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-8">
           {navLinks.map((l) => (
             <Link
               key={l.to}
               to={l.to}
-              className={`px-3.5 py-1.5 text-sm font-medium transition-colors rounded-md ${
+              className={`text-xs font-medium uppercase tracking-[0.027em] transition-colors ${
                 location.pathname === l.to
-                  ? "text-cyan-400 bg-cyan-500/10 font-semibold"
-                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                  ? "text-[#e5ff5d]"
+                  : "text-[#9c9c9c] hover:text-[#f9f9f9]"
               }`}
             >
               {l.label}
@@ -91,10 +92,10 @@ export function Navbar() {
             </div>
           ) : (
             <Link to="/auth">
-              <Button size="sm" className="rounded-sm text-xs font-bold tracking-wider uppercase h-8 px-4 bg-cyan-600 hover:bg-cyan-500">
-                <Wallet className="mr-1.5 h-3.5 w-3.5" />
-                Connect
-              </Button>
+              <button className="bg-[#e5ff5d] text-[#111111] hover:bg-[#d6f04e] px-4 py-2 rounded-[4px] font-medium text-xs tracking-wider uppercase flex items-center gap-1.5 transition-colors">
+                <Wallet className="h-3.5 w-3.5" />
+                Connect Wallet
+              </button>
             </Link>
           )}
 

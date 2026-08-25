@@ -44,61 +44,74 @@
   --container-padding: 2rem;
 }
 
-/* CHANGE VALUES FOR THEME */
+/* CODEX.IO CITRINE SIGNAL DESIGN TOKENS */
 :root {
-  --radius: 0.375rem;
-  --background: oklch(0.06 0.015 240); /* Deep obsidian dark */
-  --foreground: oklch(0.97 0.005 240); /* Crisp off-white */
-  --card: oklch(0.10 0.015 240);       /* Elevated dark charcoal */
-  --card-foreground: oklch(0.97 0.005 240);
-  --popover: oklch(0.10 0.015 240);
-  --popover-foreground: oklch(0.97 0.005 240);
-  --primary: oklch(0.72 0.19 215);     /* #06b6d4 - 0G Cyan Accent */
-  --primary-foreground: oklch(0.06 0.015 240);
-  --secondary: oklch(0.15 0.02 240);
-  --secondary-foreground: oklch(0.97 0.005 240);
-  --muted: oklch(0.14 0.015 240);
-  --muted-foreground: oklch(0.65 0.015 240);
-  --accent: oklch(0.15 0.02 240);
-  --accent-foreground: oklch(0.72 0.19 215);
+  /* Colors */
+  --color-citrine-signal: #e5ff5d;
+  --color-carbon-black: #111111;
+  --color-bone-white: #f9f9f9;
+  --color-graphite: #2b2b2b;
+  --color-ash: #6e6e6e;
+  --color-stone: #9c9c9c;
+  --color-smoke: #565656;
+  --color-chalk: #d6d6d6;
+  --color-cream-paper: #eeeeee;
+  --color-pure-black: #000000;
+  --color-sand: #b7b3a2;
+
+  --radius: 4px;
+  --background: #111111;
+  --foreground: #f9f9f9;
+  --card: #1d1d1d;
+  --card-foreground: #f9f9f9;
+  --popover: #1d1d1d;
+  --popover-foreground: #f9f9f9;
+  --primary: #e5ff5d;
+  --primary-foreground: #111111;
+  --secondary: #2b2b2b;
+  --secondary-foreground: #f9f9f9;
+  --muted: #2b2b2b;
+  --muted-foreground: #9c9c9c;
+  --accent: #2b2b2b;
+  --accent-foreground: #e5ff5d;
   --destructive: oklch(0.6 0.25 20);
-  --border: oklch(0.18 0.02 240);
-  --input: oklch(0.18 0.02 240);
-  --ring: oklch(0.72 0.19 215);
-  --chart-1: oklch(0.72 0.19 215);
-  --chart-2: oklch(0.65 0.2 250);
-  --chart-3: oklch(0.65 0.18 160);
-  --chart-4: oklch(0.88 0.18 90);
-  --chart-5: oklch(0.7 0.2 280);
-  --sidebar: oklch(0.06 0.015 240);
-  --sidebar-foreground: oklch(0.97 0.005 240);
-  --sidebar-primary: oklch(0.72 0.19 215);
-  --sidebar-primary-foreground: oklch(0.06 0.015 240);
-  --sidebar-accent: oklch(0.15 0.02 240);
-  --sidebar-accent-foreground: oklch(0.72 0.19 215);
-  --sidebar-border: oklch(0.18 0.02 240);
-  --sidebar-ring: oklch(0.72 0.19 215);
+  --border: #2b2b2b;
+  --input: #2b2b2b;
+  --ring: #e5ff5d;
+  --chart-1: #e5ff5d;
+  --chart-2: #f9f9f9;
+  --chart-3: #9c9c9c;
+  --chart-4: #6e6e6e;
+  --chart-5: #565656;
+  --sidebar: #111111;
+  --sidebar-foreground: #f9f9f9;
+  --sidebar-primary: #e5ff5d;
+  --sidebar-primary-foreground: #111111;
+  --sidebar-accent: #2b2b2b;
+  --sidebar-accent-foreground: #e5ff5d;
+  --sidebar-border: #2b2b2b;
+  --sidebar-ring: #e5ff5d;
 }
 
 .dark {
-  --background: oklch(0.06 0.015 240);
-  --foreground: oklch(0.97 0.005 240);
-  --card: oklch(0.10 0.015 240);
-  --card-foreground: oklch(0.97 0.005 240);
-  --popover: oklch(0.10 0.015 240);
-  --popover-foreground: oklch(0.97 0.005 240);
-  --primary: oklch(0.72 0.19 215);
-  --primary-foreground: oklch(0.06 0.015 240);
-  --secondary: oklch(0.15 0.02 240);
-  --secondary-foreground: oklch(0.97 0.005 240);
-  --muted: oklch(0.14 0.015 240);
-  --muted-foreground: oklch(0.65 0.015 240);
-  --accent: oklch(0.15 0.02 240);
-  --accent-foreground: oklch(0.72 0.19 215);
+  --background: #111111;
+  --foreground: #f9f9f9;
+  --card: #1d1d1d;
+  --card-foreground: #f9f9f9;
+  --popover: #1d1d1d;
+  --popover-foreground: #f9f9f9;
+  --primary: #e5ff5d;
+  --primary-foreground: #111111;
+  --secondary: #2b2b2b;
+  --secondary-foreground: #f9f9f9;
+  --muted: #2b2b2b;
+  --muted-foreground: #9c9c9c;
+  --accent: #2b2b2b;
+  --accent-foreground: #e5ff5d;
   --destructive: oklch(0.6 0.25 20);
-  --border: oklch(0.18 0.02 240);
-  --input: oklch(0.18 0.02 240);
-  --ring: oklch(0.72 0.19 215);
+  --border: #2b2b2b;
+  --input: #2b2b2b;
+  --ring: #e5ff5d;
   --chart-1: oklch(0.82 0.22 145);
   --chart-2: oklch(0.65 0.2 200);
   --chart-3: oklch(0.6 0.18 250);
@@ -227,6 +240,23 @@
     z-index: 0;
     opacity: 0.4;
   }
+}
+
+@keyframes cube-spin {
+  0% {
+    transform: rotateX(-12deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(-12deg) rotateY(360deg);
+  }
+}
+
+.animate-cube-spin {
+  animation: cube-spin 14s linear infinite;
+}
+
+.cube-scene {
+  perspective: 900px;
 }
 
 /* Respect user's motion preferences */

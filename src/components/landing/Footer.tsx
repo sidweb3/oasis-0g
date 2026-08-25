@@ -1,26 +1,27 @@
 import { Link } from "react-router";
-import { ExternalLink, Layers } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { MAINNET_CONTRACTS } from "@/lib/contracts";
+import { CitrineCube } from "@/components/ui/CitrineCube";
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-card relative">
+    <footer className="border-t border-[#2b2b2b] bg-[#111111] text-[#f9f9f9] relative">
       {/* Top section */}
-      <div className="container px-4 py-12">
+      <div className="w-full max-w-[1280px] mx-auto px-8 md:px-12 lg:px-16 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
-          <div className="col-span-2">
-            <Link to="/" className="flex items-center gap-2.5 mb-4">
-              <img src="/oasis-emblem.svg" alt="Oasis Emblem" className="h-9 w-9 object-contain drop-shadow-[0_0_12px_rgba(6,182,212,0.5)]" />
-              <span className="font-black text-lg tracking-tight">
-                OASIS <span className="text-cyan-400">0G</span>
+          <div className="col-span-2 space-y-4">
+            <Link to="/" className="flex items-center gap-3">
+              <CitrineCube size={28} glow={false} />
+              <span className="font-medium text-xl tracking-[0.027em] text-[#f9f9f9]">
+                OASIS <span className="text-[#e5ff5d]">0G</span>
               </span>
             </Link>
-            <p className="text-sm text-muted-foreground mb-4 leading-relaxed max-w-xs">
-              Verifiable AI yield optimization vault on 0G Chain. Dual ERC-4626 vaults, 0G Compute AI decision engine, 0G Storage reasoning logs, and tokenized Strategy Agentic IDs.
+            <p className="text-xs text-[#9c9c9c] leading-relaxed max-w-xs font-normal">
+              Verifiable AI yield optimization vault on 0G Chain. Native 0G vaults, 0G Compute TEE decision engine, 0G Storage reasoning logs, and tokenized Strategy Agentic IDs.
             </p>
-            <div className="flex items-center gap-2 font-mono text-xs text-cyan-400">
-              <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
+            <div className="flex items-center gap-2 font-mono text-[10px] tracking-[0.032em] text-[#e5ff5d] uppercase">
+              <span className="w-1.5 h-1.5 bg-[#e5ff5d] rounded-full animate-pulse" />
               LIVE ON 0G CHAIN (ARISTOTLE 16661)
             </div>
           </div>
