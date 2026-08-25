@@ -164,6 +164,11 @@
     100% { transform: translateY(40px); }
   }
 
+  @keyframes progress {
+    0% { width: 0%; }
+    100% { width: 100%; }
+  }
+
   @keyframes noise {
     0%, 100% { transform: translate(0, 0); }
     10% { transform: translate(-1px, -1px); }

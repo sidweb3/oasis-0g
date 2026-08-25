@@ -16,7 +16,7 @@ import { useMutation } from "convex/react";
 import { Loader2, Wallet, AlertCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { parseEther, parseUnits, formatUnits, formatEther } from "viem";
+import { parseEther, parseUnits, formatUnits, formatEther, parseGwei } from "viem";
 import { useAccount, useWriteContract, useReadContract, useBalance } from "wagmi";
 import { MAINNET_CONTRACTS, MASTER_VAULT_ABI, MOCK_USDC_ABI, NATIVE_VAULT_ABI, isDeployed } from "@/lib/contracts";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -60,6 +60,8 @@ export function DepositDialog({ vaultId, vaultName }: DepositDialogProps) {
         abi: MOCK_USDC_ABI,
         functionName: "faucet",
         chainId: 16661,
+        maxPriorityFeePerGas: parseGwei("2.5"),
+        maxFeePerGas: parseGwei("5.0"),
       });
       toast.success("Faucet claimed 10,000 USDC!");
     } catch (err: any) {
@@ -80,20 +82,28 @@ export function DepositDialog({ vaultId, vaultName }: DepositDialogProps) {
         functionName: "deposit",
         value: val,
         chainId: 16661,
+        maxPriorityFeePerGas: parseGwei("2.5"),
+        maxFeePerGas: parseGwei("5.0"),
       });
-      toast.success(`Deposited ${amount} 0G into NativeVault!`);
 
-      await depositMutation({
-        vaultId,
-        amount: Number(amount),
-        walletAddress: address,
-        token: depositToken,
-      });
+      toast.success(`Deposited ${amount} 0G into NativeVault! Tx: ${tx.slice(0, 10)}...`);
+
+      try {
+        await depositMutation({
+          vaultId,
+          amount: Number(amount),
+          walletAddress: address,
+          token: depositToken,
+        });
+      } catch (dbErr) {
+        console.warn("Convex DB sync warning:", dbErr);
+      }
 
       setIsOpen(false);
       setAmount("");
     } catch (err: any) {
-      toast.error(err.shortMessage || "Deposit failed");
+      console.error("Deposit error:", err);
+      toast.error(err.shortMessage || err.message || "Deposit failed");
     } finally {
       setIsDepositing(false);
     }

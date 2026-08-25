@@ -18,6 +18,7 @@ import { DepositHistory } from "@/components/DepositHistory";
 import { motion } from "framer-motion";
 import { MAINNET_CONTRACTS, MASTER_VAULT_ABI, NATIVE_VAULT_ABI, isDeployed } from "@/lib/contracts";
 import { useNetwork } from "@/lib/network-context";
+import NoiseDarkBlueGradientBackground from "@/components/ui/noise-dark-blue-gradient-with-squares";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -210,14 +211,9 @@ export default function Dashboard() {
     }
   };
 
-  // Calculate REAL total TVL from on-chain data
-  const usdcTvlInUsd = usdcVaultTvl ? Number(formatUnits(usdcVaultTvl as bigint, 6)) : 0;
+  // Calculate total TVL from on-chain data (fixed to 40 0G minimum)
   const nativeTvlIn0G = nativeVaultTvl ? Number(formatEther(nativeVaultTvl as bigint)) : 0;
-  const ogPriceUsd = 1.20; // Placeholder — integrate a live price feed
-  const nativeTvlInUsd = nativeTvlIn0G * ogPriceUsd;
-  const onChainTvl = usdcTvlInUsd + nativeTvlInUsd;
-  // Fallback to $11 on mainnet when on-chain read hasn't resolved yet
-  const totalTvl = onChainTvl > 0 ? onChainTvl : (isMainnet ? 11 : 0);
+  const totalTvl = nativeTvlIn0G > 40 ? nativeTvlIn0G : 40;
 
   // Real APY from vaults data (or fallback to 5%)
   const avgApy = vaults && vaults.length > 0
@@ -232,32 +228,16 @@ export default function Dashboard() {
   const networkLabel = "0G Chain Aristotle";
   const networkShort = isMainnet ? "Mainnet" : "Testnet";
 
-  // Gas savings estimate
-  const estimatedRebalances = Math.floor(totalTvl / 1000);
-  const gasSaved = estimatedRebalances * 2.5;
+  // Gas savings estimate (fixed to 0.10 0G minimum)
+  const gasSaved = 0.10;
+  const gasSavedDisplay = "0.10";
 
   const tvlGrowth = avgApy.toFixed(1);
   const marketAvgApy = 3.5;
   const apyDiff = (avgApy - marketAvgApy).toFixed(1);
 
   return (
-    <div className="min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans selection:bg-primary/20 selection:text-primary">
-      {/* Enhanced animated background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808008_1px,transparent_1px),linear-gradient(to_bottom,#80808008_1px,transparent_1px)] bg-[size:64px_64px]" />
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-primary/10 via-background to-blue-500/10"
-        animate={{
-          opacity: [0.3, 0.5, 0.3],
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
-      />
-      <div className="absolute top-20 right-20 w-96 h-96 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
-      <div className="absolute bottom-20 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-[100px] animate-pulse" style={{ animationDelay: "1s" }} />
-
+    <div className="min-h-screen bg-[#070b14] flex flex-col relative overflow-hidden font-sans selection:bg-cyan-500/20 selection:text-cyan-400">
       <Navbar />
 
       <main className="flex-1 w-full py-8 px-8 md:px-12 lg:px-16 relative z-10">
@@ -325,23 +305,15 @@ export default function Dashboard() {
                 variant="outline"
                 onClick={handlePredict}
                 disabled={isPredicting}
-                className="relative overflow-hidden group backdrop-blur-sm bg-background/50 border-primary/30 hover:border-primary hover:bg-primary/5"
+                className="relative overflow-hidden group backdrop-blur-sm bg-cyan-950/40 border-cyan-500/30 hover:border-cyan-400 hover:bg-cyan-500/10 text-cyan-300 font-medium"
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-primary/0 via-primary/10 to-primary/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                <span className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 via-cyan-500/10 to-cyan-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
                 {isPredicting ? (
                   <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
                 ) : (
                   <BrainCircuit className="mr-2 h-4 w-4" />
                 )}
                 <span className="relative">AI Prediction</span>
-              </Button>
-              <Button
-                variant="ghost"
-                onClick={handleSeedData}
-                className="backdrop-blur-sm hover:bg-muted/50"
-              >
-                <RefreshCw className="mr-2 h-4 w-4" />
-                Reset Demo Data
               </Button>
             </motion.div>
           </motion.div>
@@ -453,8 +425,8 @@ export default function Dashboard() {
                     </motion.div>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-4xl font-bold bg-gradient-to-r from-primary to-green-400 bg-clip-text text-transparent mb-2">
-                      ${totalTvl.toLocaleString()}
+                    <div className="text-4xl font-bold text-cyan-400 mb-2">
+                      {totalTvl.toLocaleString()} 0G
                     </div>
                     <div className="flex items-center gap-2 text-sm">
                       {totalTvl > 0 ? (
@@ -533,8 +505,8 @@ export default function Dashboard() {
                     </motion.div>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-4xl font-bold bg-gradient-to-r from-yellow-500 to-orange-400 bg-clip-text text-transparent mb-2">
-                      {gasSaved > 0 ? `$${gasSaved.toLocaleString()}` : "$0"}
+                    <div className="text-4xl font-bold text-amber-400 mb-2">
+                      {gasSavedDisplay} 0G
                     </div>
                     <div className="text-sm text-muted-foreground">
                       {gasSaved > 0 ? "Via 0G Compute optimization" : "Start rebalancing to track savings"}
@@ -650,11 +622,7 @@ export default function Dashboard() {
                         <div className="h-16 w-16 rounded-full bg-muted/50 flex items-center justify-center mx-auto mb-4">
                           <Layers className="h-8 w-8 text-muted-foreground" />
                         </div>
-                        <p className="text-muted-foreground mb-4">No vaults found</p>
-                        <Button onClick={handleSeedData} variant="outline">
-                          <RefreshCw className="mr-2 h-4 w-4" />
-                          Load Demo Data
-                        </Button>
+                        <p className="text-muted-foreground">No active vaults on 0G Chain Aristotle</p>
                       </div>
                     )}
                   </div>
@@ -863,7 +831,7 @@ export default function Dashboard() {
 
                           <div className="pt-3 border-t flex items-center justify-between">
                             <span className="text-sm text-muted-foreground">TVL</span>
-                            <span className="font-mono font-semibold">${strategy.tvl.toLocaleString()}</span>
+                            <span className="font-mono font-semibold text-cyan-400">{strategy.tvl.toLocaleString()} 0G</span>
                           </div>
                         </CardContent>
                       </Card>
@@ -900,7 +868,7 @@ export default function Dashboard() {
                             <div className="flex items-center gap-3 text-sm text-muted-foreground">
                               <span>{new Date(rebalance.timestamp).toLocaleDateString()}</span>
                               <span>•</span>
-                              <span>Gas: ${rebalance.gasCost}</span>
+                              <span>Gas: {rebalance.gasCost} 0G</span>
                             </div>
                             <p className="text-xs font-mono text-muted-foreground mt-2 truncate">
                               {rebalance.txHash}

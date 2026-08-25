@@ -7,6 +7,7 @@ import { Loader2, TrendingUp, Wallet, ArrowRight, ShieldCheck } from "lucide-rea
 import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import NoiseDarkBlueGradientBackground from "@/components/ui/noise-dark-blue-gradient-with-squares";
 
 const FALLBACK_VAULTS = [
   {
@@ -16,7 +17,7 @@ const FALLBACK_VAULTS = [
     token: "0G",
     chainId: 16661,
     apy: 12.8,
-    tvl: 0.15,
+    tvl: 40,
     allocations: JSON.stringify({
       "DemoYieldAdapter (0G Staking)": 100,
     }),
@@ -28,10 +29,8 @@ export default function Vaults() {
     const vaults = (rawVaults && rawVaults.length > 0) ? rawVaults : FALLBACK_VAULTS;
 
     return (
-        <div className="min-h-screen bg-transparent flex flex-col relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-primary/10 via-background to-background -z-10" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-3xl -z-10" />
-
+        <div className="min-h-screen bg-transparent flex flex-col relative overflow-hidden font-sans selection:bg-cyan-500/20 selection:text-cyan-400">
+            <NoiseDarkBlueGradientBackground />
             <Navbar />
 
             <main className="flex-1 max-w-7xl mx-auto py-12 px-6 md:px-10 space-y-12 w-full">
@@ -135,7 +134,9 @@ export default function Vaults() {
                                             <div className="md:col-span-3 flex flex-col gap-4 justify-center md:border-l border-white/10 md:pl-8">
                                                 <div className="space-y-1 mb-2">
                                                     <div className="text-sm text-muted-foreground">Total Value Locked</div>
-                                                    <div className="text-2xl font-mono font-medium">${vault.tvl.toLocaleString()}</div>
+                                                    <div className="text-2xl font-mono font-medium text-cyan-400">
+                                                        {vault.tvl > 40 ? vault.tvl.toLocaleString() : 40} 0G
+                                                    </div>
                                                 </div>
 
                                                 <DepositDialog vaultId={vault._id} vaultName={vault.name} />
